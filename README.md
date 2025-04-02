@@ -1,5 +1,5 @@
 HELLO
-
+AUTOMERGECASE
 byebye
 
 crystal issue
