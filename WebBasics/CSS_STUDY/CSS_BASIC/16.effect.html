@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      overflow: hidden;
+    }
+    .sparkle {
+      position: absolute;
+      border-radius: 50%;
+      animation: fadeOut 1s forwards;
+      animation-iteration-count: 1;
+      animation-timing-function: ease;
+      pointer-events: none;
+    }
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    document.addEventListener('mousemove', (e) => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+
+      const size = Math.random() * 20 + 5;
+      sparkle.style.width = `${size}px`;
+      sparkle.style.height = `${size}px`;
+      sparkle.style.left = `${e.pageX - size / 2}px`;
+      sparkle.style.top = `${e.pageY - size / 2}px`;
+      sparkle.style.background = `radial-gradient(circle, hsl(${Math.random() * 360}, 100%, 75%), rgba(255,255,255,0))`;
+
+      //백틱에 주의할 것.
+
+      document.body.appendChild(sparkle);
+
+      setTimeout(() => {
+        sparkle.remove();
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
