@@ -1,0 +1,56 @@
+# HTML
+HyperText Markup Language
+<태그> </태그> 의 형태로 작성된다.
+
+# HTML은 개발언어인가?
+아니다. 마크업 랭귀지에 해당.
+개발언어와 달리 일부 틀려도 최대한 표시할 수 있는 만큼 표시해주려는 경향이 있다.
+
+# 네트워킹
+HTTPS 는 사실 http secure가 아니라, http ssl 이다.
+
+HTTPS를 구성하는 PKI 를 이해할 것.
+Private / Public 키 방식.
+SSL
+
+
+# 통신 책추천
+후니의 쉽게 쓴 시스코 네트워킹
+
+# CSS
+
+## css 색 표현법
+RGB #FF0000
+
+## 박스 모델
+나의 컨텐츠를 감싸는 내 눈에 보이지 않는 요소들
+콘텐츠 / 패딩 / 보더 / 마진
+
+## 이미지의 floating 속성
+글자를 감쌀거냐, 위로갈거냐, 아래로갈거냐, 밀어낼거냐
+
+## 시멘틱 태그
+div 가 아니라 시맨틱 태그로 감싸는 것이 좋다.
+기능적인 의미는 없지만, 의미를 갖고 있는 태그들.
+section header main
+=>웹 접근성 / 크롤링
+
+
+## 블락요소/인라인 요소
+
+## 스크립트언어의 일반원칙
+
+순차적으로 위에서 아래로 하나하나 읽으면서 처리.
+아래에 넣은걸로 덮어쓰게 된다.
+
+# CSS 학습사이트
+
+https://flukeout.github.io/
+https://flexboxfroggy.com/#ko
+https://cssgridgarden.com/#ko
+
+#
+https://lovehyun.notion.site/HTML-CSS-1ca6ebae57e1801ea844f1182756701f
+
+#
+https://github.com/lovehyun/spc2025
