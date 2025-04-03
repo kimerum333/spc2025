@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        div.inline-block{
+            width: 100px;
+            height: 100px;
+            background-color: orange;
+            margin: 2px;
+            display: inline-block;
+        }
+        div.basic{
+            width: 100px;
+            height: 100px;
+            background-color: #333333;
+            margin: 2px;
+        }
+        div.rel{
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin: 2px;
+            background-color: blue;
+            top: 50px;
+            left: 50px;
+        }
+
+        div.abs{
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            margin: 2px;
+            background-color: yellow;
+            top: 50px;
+            left: 50px;
+        }
+        .container{
+            width: 300px;
+            height: 200px;
+            background-image: url(trump.avif);
+            background-size: 100% 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+
+    <div class="inline-block">1</div>
+    <div class="inline-block">2</div>
+    <div class="inline-block">3</div>
+
+    <div class="basic">1</div>
+    <div class="basic">2</div>
+    <div class="basic">3</div>
+
+    <div class="rel">1</div>
+    <div class="rel">2</div>
+    <div class="rel">3</div>
+
+    <div class="abs">1</div>
+    <div class="abs">2</div>
+    <div class="abs">3</div>
+
+
+</body>
+</html>
