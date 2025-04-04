@@ -19,15 +19,16 @@
     <h1>프로그레스바(타이머)</h1>    
     <input type="number" id="timeInput" placeholder="초 입력" min=1>
     <button class="startButton" onclick="startTimer()">start</button>
-    <button id="resetButton">reset</button>
+    <button id="resetButton" onclick="resetTimer()">reset</button>
     <div id="progressBar">
         <div id="progress"></div>
     </div>
 
     <script>
-            let progressBar = document.getElementById("progress");
-            let timeInput = document.getElementById("timeInput");
-            let duration = 0;
+        let progressBar = document.getElementById("progress");
+        let timeInput = document.getElementById("timeInput");
+        let duration = 0;
+        let interval;
         //미션1 : 타이머 구현
         function startTimer(){
             let timePassed = 0;
@@ -36,18 +37,21 @@
             ()=>{
                 timePassed++;
                 let progress = (timePassed/duration)*100; //진행율
-                //progressBar.style.width = progress+"%";
-                progressBar.style.width = `${progress}%`;
+                progressBar.style.width = progress+"%";
 
                 if(timePassed>=duration){
                     clearInterval(interval);
                 }
             },1000);
         }
+
         //미션2 : 리셋기능 구현
         //2-1누르면 타이머가 멈춘다
         //2-2추가로 게이지도 리셋한다.
-
+        function resetTimer(){
+            clearInterval(interval);
+            progressBar.style.width = `0%`;  
+        }
 
     </script>
 </body>
