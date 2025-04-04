@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        table td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table id="targetTable">
+        <tr>
+            <td>셀1</td>
+            <td>셀2</td>
+            <td>셀3</td>
+        </tr>
+        <tr>
+            <td>셀4</td>
+            <td>셀5</td>
+            <td>셀6</td>
+        </tr>
+        <tr>
+            <td>셀7</td>
+            <td>셀8</td>
+            <td>셀9</td>
+        </tr>
+    </table>    
+
+    <button onclick="changeAllCells()">전체색상변경</button>
+    <button onclick="changeOddCells()">홀수색상변경</button>
+    <button onclick="changeEvenCells()">짝수색상변경</button>
+
+    <script>
+        //
+        function changeAllCells() {
+            const target = document.getElementsByTagName("td");
+            Array.from(target).forEach(cell => {
+                cell.style.backgroundColor = "lightblue";
+            });
+        }
+
+        //
+        function changeOddCells() {
+            const target = document.getElementsByTagName("td");
+            let index = 0;
+            for (let cell of target) {
+                if (index % 2 !== 0) {
+                    cell.style.backgroundColor = "lightgreen";
+                }
+                index++;
+            }
+        }
+
+        // 
+        function changeEvenCells() {
+            const target = document.querySelectorAll("td");
+            //쿼리셀렉터는 HTML 콜렉션이 아닌 노드리스트를 반환한다. 노드리스트는 포이치를 지원.
+            target.forEach((cell, index) => {
+                //노드리스트의 포이치는 두 번째 인자로 인덱스를 쓸 수 있음. https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach
+                if (index % 2 === 0) {
+                    cell.style.backgroundColor = "lightpink";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h1>화면 리프래쉬 예제</h1>
+    <p>이 페이지는 3초 후에 리프래쉬됩니다.</p>
+
+    <script>
+        window.onload = function(){
+            //3초 후 실행
+            setTimeout(
+                ()=>{console.log("3초지남");
+                //location.reload();
+                //location = location;
+                location.href = location.href;
+            },3000);
+            setTimeout(
+                ()=>console.log("5초지남")
+                ,5000);
+            console.log("난 안기다림");
+        }
+    </script>    
+</body>
+</html>

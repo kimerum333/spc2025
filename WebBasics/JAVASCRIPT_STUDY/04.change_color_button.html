@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="changeBGColor()">배경변경</button>
+    <button onclick="changeBGColorRandom()">배경변경</button>
+    <button onclick="changeBGColorRandom2()">배경변경</button>
+
+
+    <script>
+
+        let colors = ["red","green","blue"];
+        let currentIndex = 0;
+        function changeBGColor(){
+            document.body.style.backgroundColor = colors[ (currentIndex++) % colors.length ];
+        }
+
+        //랜덤색상 
+
+        function changeBGColorRandom(){
+            const RGB =  Math.floor(Math.random() * 256*256*256).toString(16).padStart(6,'0');
+            document.body.style.backgroundColor = "#"+RGB;
+        }
+
+        function changeBGColorRandom2(){
+            const red =  Math.floor(Math.random() * 256);
+            const green =  Math.floor(Math.random() * 256);
+            const blue =  Math.floor(Math.random() * 256);
+            document.body.style.backgroundColor = `rgb(${red},${green},${blue})`;
+        }
+
+    </script>
+</body>
+</html>

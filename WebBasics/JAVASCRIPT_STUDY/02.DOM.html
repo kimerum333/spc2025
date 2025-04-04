@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h1>도큐먼트에 자바스크립트로 내용 출력하기</h1>
+    <p id="mytext" class="text">여기에 본문 내용 작성하기</p>
+    <p class="text">여기에 본문 내용 작성하기</p>
+    <p>여기에 본문 내용 작성하기</p>
+
+
+    <script>
+        const mytext = document.getElementById("mytext");
+        console.log(mytext);
+        mytext.innerText='헬로우 자바스크립트';
+
+        const mytext2 = document.getElementsByClassName("text"); //=>클래스로 갖고오는건 collection 형태로 들어온다. 따라서 id 로 접근했던 때와 달리, index로 접근할 필요가 있다.
+        mytext2[1].innerText='헬로우 자바스크립2';
+
+        const mytext3 = document.getElementsByTagName('p')
+        mytext3[2].innerText='헬로우 자바스크립3';
+
+
+    </script>
+</body>
+</html>
