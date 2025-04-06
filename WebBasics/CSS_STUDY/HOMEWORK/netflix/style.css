@@ -1,0 +1,574 @@
+/* 기본 스타일 */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: "Arial", sans-serif;
+}
+
+#netflix-logo {
+  width: 110px;
+  height: 30px;
+  fill: #e50914;
+}
+
+/* ------------------------------------------------네비게이션 바 스타일------------------------------------------------ */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: #000;
+  position: fixed; /* absolute에서 fixed로 변경하여 스크롤 시에도 고정되도록 */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.nav-options {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.language-select {
+  background-color: #000;
+  color: white;
+  border: 1px solid #aaa;
+  padding: 8px 20px;
+  border-radius: 3px;
+}
+.language-select option {
+  background-color: #000;
+  color: white;
+}
+
+.login-button {
+  background-color: #e50914;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------히어로 섹션 스타일------------------------------------------------ */
+.hero-section {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 70px 20px 0; /* 상단 패딩 추가 */
+  background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.4) 60%,
+      rgba(0, 0, 0, 0.4) 100%
+    ),
+    url("images/hero.jpg");
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  max-width: 800px;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  max-width: 800px;
+}
+
+/* 이메일 */
+
+.email-form {
+  display: flex;
+  margin-top: 1rem;
+  max-width: 800px;
+  width: 100%;
+}
+
+.email-input {
+  flex: 1;
+  height: 60px;
+  padding: 0 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px 0 0 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+/* 시작하기 */
+
+.start-button {
+  height: 60px;
+  background-color: #e50914;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  padding: 0 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.start-button svg {
+  margin-left: 10px;
+  width: 18px;
+  height: 18px;
+}
+/* ------------------------------------------------메인 콘텐츠 컨테이너------------------------------------------------ */
+.main-content-container {
+  width: 100%;
+  max-width: 1200px; /* 최대 너비 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 0 20px; /* 좌우 여백 */
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------가격 정보 섹션 스타일------------------------------------------------ */
+.price-section {
+  background-color: rgba(45, 45, 45, 0.7);
+  border-radius: 10px;
+  padding: 15px 20px;
+  max-width: 800px; /* 원본과 비슷하게 너비 조정 */
+  margin: 20px auto; /* 상하 여백 조정 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-info {
+  text-align: left;
+  flex: 1;
+}
+
+.price-title {
+  margin: 0 0 5px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.price-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.more-info {
+  color: #fff;
+  background-color: transparent;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  margin-left: 20px;
+}
+
+.more-info:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+
+/* ------------------------------------------------콘텐츠 슬라이더 섹션 스타일------------------------------------------------ */
+.content-section {
+  padding: 20px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.section-title {
+  padding-left: 20px;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  font-weight: normal;
+}
+
+.slider-container {
+  display: flex;
+  overflow-x: visible;
+  gap: 15px;
+  padding: 0;
+  margin: 0 -20px; /* 컨테이너보다 좌우로 조금 더 확장 */
+  width: calc(100% + 40px);
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+
+.content-item {
+  width: 150px;
+  height: 200px;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+}
+
+.content-item:hover {
+  transform: scale(1.05);
+}
+
+.content-number {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 36px;
+  font-weight: bold;
+  z-index: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* ------------------------------------------------반응형 스타일------------------------------------------------ */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .email-form {
+    flex-direction: column;
+  }
+
+  .email-input {
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+
+  .start-button {
+    border-radius: 2px;
+    width: 100%;
+  }
+
+  .price-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .price-info {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .more-info {
+    margin-left: 0;
+  }
+
+  .content-item {
+    width: 120px;
+    height: 170px;
+  }
+} /* 기본 스타일 */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: "Arial", sans-serif;
+}
+
+#netflix-logo {
+  width: 110px;
+  height: 30px;
+  fill: #e50914;
+}
+
+/* ------------------------------------------------네비게이션 바 스타일------------------------------------------------ */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: #000;
+  position: fixed; /* absolute에서 fixed로 변경하여 스크롤 시에도 고정되도록 */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.nav-options {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.language-select {
+  background-color: #000;
+  color: white;
+  border: 1px solid #aaa;
+  padding: 8px 20px;
+  border-radius: 3px;
+}
+.language-select option {
+  background-color: #000;
+  color: white;
+}
+
+.login-button {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------히어로 섹션 스타일------------------------------------------------ */
+.hero-section {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 70px 20px 0; /* 상단 패딩 추가 */
+  background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.4) 60%,
+      rgba(0, 0, 0, 0.4) 100%
+    ),
+    url("images/hero.jpg");
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  max-width: 800px;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  max-width: 800px;
+}
+
+.email-form {
+  display: flex;
+  margin-top: 1rem;
+  max-width: 800px;
+  width: 100%;
+}
+
+.email-input {
+  flex: 1;
+  height: 60px;
+  padding: 0 10px;
+  font-size: 1rem;
+  border: 1px solid #8c8c8c;
+  border-radius: 2px 0 0 2px;
+}
+
+.start-button {
+  height: 60px;
+  background-color: #e50914;
+  color: white;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 0 2px 2px 0;
+  padding: 0 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.start-button svg {
+  margin-left: 10px;
+}
+
+.start-button:hover {
+  background-color: #f40612;
+}
+
+/* ------------------------------------------------메인 콘텐츠 컨테이너------------------------------------------------ */
+.main-content-container {
+  width: 100%;
+  max-width: 1200px; /* 최대 너비 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 0 20px; /* 좌우 여백 */
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------가격 정보 섹션 스타일------------------------------------------------ */
+.price-section {
+  background-color: rgba(45, 45, 45, 0.7);
+  border-radius: 10px;
+  padding: 15px 20px;
+  max-width: 800px; /* 원본과 비슷하게 너비 조정 */
+  margin: 20px auto; /* 상하 여백 조정 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-info {
+  text-align: left;
+  flex: 1;
+}
+
+.price-title {
+  margin: 0 0 5px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.price-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.more-info {
+  color: #fff;
+  background-color: rgba(60, 60, 60, 0.5);
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  margin-left: 20px;
+}
+
+.more-info:hover {
+  background-color: rgba(80, 80, 80, 0.7);
+  border-color: #fff;
+}
+
+/* ------------------------------------------------콘텐츠 슬라이더 섹션 스타일------------------------------------------------ */
+.content-section {
+  padding: 20px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.section-title {
+  padding-left: 20px;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  font-weight: normal;
+}
+
+.slider-container {
+  display: flex;
+  overflow-x: visible;
+  gap: 15px;
+  padding: 0;
+  margin: 0 -20px; /* 컨테이너보다 좌우로 조금 더 확장 */
+  width: calc(100% + 40px);
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+
+.content-item {
+  width: 150px;
+  height: 200px;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+}
+
+.content-item:hover {
+  transform: scale(1.05);
+}
+
+.content-number {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 36px;
+  font-weight: bold;
+  z-index: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* ------------------------------------------------반응형 스타일------------------------------------------------ */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .email-form {
+    flex-direction: column;
+  }
+
+  .email-input {
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+
+  .start-button {
+    border-radius: 2px;
+    width: 100%;
+  }
+
+  .price-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .price-info {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .more-info {
+    margin-left: 0;
+  }
+
+  .content-item {
+    width: 120px;
+    height: 170px;
+  }
+}
