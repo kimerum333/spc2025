@@ -13,26 +13,34 @@
 
     <script>
         //1. 랜덤 숫자를 만들고 기억해둔다.
-        let number = Math.floor( Math.random()*100 ) +1
-        console.log(number);
+        let number = Math.floor( Math.random()*100 ) +1;
+        const inputeElem = document.getElementById("guessNumber");
+        const resultELem = document.getElementById("result");
+        console.log(number); //디버그 주석
 
         //2. 사용자가 입력한 값을 보고 생각한 숫자보다 작다/크다/같다 구분해서 출력
+
         function guess(){
-            const inputNumber = Number(document.getElementById("guessNumber").value);
-            const printResult = (input)=>{ 
-                document.getElementById("result").innerText = input;
-            }
-            if(inputNumber==number){
-                printResult("정답입니다.")
+            //피드백 : 돔은 안바뀌니까 굳이 돔을 매번 새로 가져올 이유가 없지 않나? 를 반영해서 수정.
+            const inputNumberValue = Number(inputeElem.value);
+
+            //프린트 위한 간단한 내부 함수 정의
+            //피드백 : 돔을 매번 가져오지 않으려면 전역변수에 잡아두는게 좋지.
+
+            //로직
+            if(inputNumberValue==number){
+                //innerHtml 은 innerText 와 달리 파싱해서 렌더링한다.
+                resultELem.innerHTML = '<B style="color:red">정답입니다.</B>';
                 return;
             }
-            if(inputNumber>number){
-                printResult("제가 생각한 숫자보다 크네요.");
+            if(inputNumberValue>number){
+                resultELem.innerText = "제가 생각한 숫자보다 크네요.";
                 return;
             }
-            printResult("제가 생각한 숫자보다 작네요.");
+            resultELem.innerText = "제가 생각한 숫자보다 작네요";
         }
         //3. 어떻게 숫자를 찍어야 가장 좋은가? => 바이너리서치?
+        // log 2 (100) = 6.643  : 최악 7번
     </script>
 </body>
 </html>
