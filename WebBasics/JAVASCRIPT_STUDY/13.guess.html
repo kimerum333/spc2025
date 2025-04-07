@@ -10,12 +10,17 @@
     <input type="number" id="guessNumber" placeholder="숫자입력">
     <button id="guessButton" onclick="guess()">Guess</button>
     <p id="result"></p>
+    <ol id="history">
+
+    </ol>
+
 
     <script>
         //1. 랜덤 숫자를 만들고 기억해둔다.
         let number = Math.floor( Math.random()*100 ) +1;
         const inputeElem = document.getElementById("guessNumber");
         const resultELem = document.getElementById("result");
+        const history = document.getElementById("history");
         console.log(number); //디버그 주석
 
         //2. 사용자가 입력한 값을 보고 생각한 숫자보다 작다/크다/같다 구분해서 출력
@@ -27,20 +32,28 @@
             //프린트 위한 간단한 내부 함수 정의
             //피드백 : 돔을 매번 가져오지 않으려면 전역변수에 잡아두는게 좋지.
 
+            let resultText = "";
             //로직
-            if(inputNumberValue==number){
-                //innerHtml 은 innerText 와 달리 파싱해서 렌더링한다.
-                resultELem.innerHTML = '<B style="color:red">정답입니다.</B>';
-                return;
-            }
-            if(inputNumberValue>number){
+            if(inputNumberValue<number){
+                resultText = "제가 생각한 숫자보다 작았습니다.";
+                resultELem.innerText = "제가 생각한 숫자보다 작네요";
+            }else if (inputNumberValue>number){
+                resultText = "제가 생각한 숫자보다 입력 숫자가 컸습니다.";
                 resultELem.innerText = "제가 생각한 숫자보다 크네요.";
-                return;
+            }else{
+                //innerHtml 은 innerText 와 달리 파싱해서 렌더링한다.
+                resultText = "정답이었습니다.";
+                resultELem.innerHTML = '<B style="color:red">정답입니다.</B>';
             }
-            resultELem.innerText = "제가 생각한 숫자보다 작네요";
+
+            //4. 이전 찍기 기록들을 화면에 계속 남겨가고 싶어!
+            const newResult = document.createElement("li");
+            newResult.innerText = "사용자입력: " + inputNumberValue + " / 결과 : "+ resultText;
+            history.appendChild(newResult);
         }
         //3. 어떻게 숫자를 찍어야 가장 좋은가? => 바이너리서치?
         // log 2 (100) = 6.643  : 최악 7번
+
     </script>
 </body>
 </html>
