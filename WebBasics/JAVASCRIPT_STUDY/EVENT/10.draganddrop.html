@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+      .dragItem {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+        cursor: pointer;
+      }
+      #dropZone {
+        width: 600px;
+        height: 400px;
+        border: 2px dashed black;
+        background-color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      style="background-color: yellow"
+      class="dragItem yellow"
+      draggable="true"
+    >
+      Drag Me
+    </div>
+    <div style="background-color: blue" class="dragItem blue" draggable="true">
+      Drag Me
+    </div>
+    <div style="background-color: red" class="dragItem red" draggable="true">
+      Drag Me
+    </div>
+
+    <div id="dropZone">Drop here</div>
+
+    <script>
+      const dragItems = document.getElementsByClassName("dragItem");
+      const dropZone = document.getElementById("dropZone");
+
+      for (dragItem in dragItems) {
+        dragItem.addEventListener("dragstart", function () {
+          console.log("드래그 시작");
+        });
+      }
+      dropZone.addEventListener("dragover", function (e) {
+          console.log("내위에누가있음");
+          e.preventDefault();
+        });
+        //하는중
+        dropZone.addEventListener("drop", function () {
+          console.log("드롭발생");
+          dropZone.appendChild(dragItem);
+        });
+
+      //숙제 3개 만들어서 붙이기(그냥 가로로 3개)
+    </script>
+  </body>
+</html>

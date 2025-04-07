@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .container{
+            padding: 20px;
+            background-color: lightgray;
+        }
+        .inner{
+            padding: 10px;
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="inner">클릭하시오</div>
+    </div>    
+    <script>
+        document.querySelector('.container') //쿼리셀렉터는 css셀렉터 문법으로 엘리먼트를 가져온다. + 쿼리셀렉터는 첫번째 하나만 가져옴. 여러개 가져오려면 쿼리셀렉터 올.
+        .addEventListener('click',function(){
+            console.log('컨테이너 클릭됨');
+        });
+
+        document.querySelector('.inner')
+        .addEventListener('click',function(e){
+            console.log('안쪽 클릭됨');
+            //안을 클릭해도 밖이 함께 클릭되는 문제. 이벤트 전파를 멈춰서 해결가능. 클릭된 이벤트가 바깥쪽까지 전파되어 컨테이너도 클릭한것이 되었기 떄문이다.
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

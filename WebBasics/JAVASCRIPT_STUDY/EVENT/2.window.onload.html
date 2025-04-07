@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //html css 등 모든 요소 로딩이 끝난 후
+        window.onload = function(){
+            console.log("로딩종료");
+        }
+
+        document.addEventListener('DOMContentLoaded',
+            //order3
+            ()=>console.log("DOM 로딩 완료")
+        );
+    </script>    
+</body>
+</html>

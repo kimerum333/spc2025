@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="myinput">
+    <input type="text" name="" id="myinput2">
+
+    <script>
+        //키다운은 누르고있으면 반복입력되는 특징이 있다.
+        document.addEventListener("keydown",(e)=>{
+            const myInput = document.getElementById("myinput");
+            myInput.value  +=  e.key;
+        });
+        //키업은 1회
+        document.addEventListener("keyup",(e)=>{
+            const myInput2 = document.getElementById("myinput2");
+            myInput2.value  +=  e.key;
+        });
+
+    </script>    
+</body>
+</html>

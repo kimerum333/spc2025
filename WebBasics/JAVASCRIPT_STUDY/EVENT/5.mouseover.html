@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #myElement{
+            width: 100px;
+            height: 100px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="myElement"></div>
+    <script>
+        const myElem = document.getElementById('myElement');
+        myElem.addEventListener("mouseover",()=>{
+            //화살표함수에서의 this 는 
+            myElem.style.backgroundColor='blue';
+        });
+        myElem.addEventListener("mouseout",function(){
+            //
+            this.style.backgroundColor='aqua';
+        });
+    </script>
+</body>
+</html>

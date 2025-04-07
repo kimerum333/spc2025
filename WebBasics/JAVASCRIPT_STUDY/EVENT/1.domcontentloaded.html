@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+        //order1
+        console.log("hello,head");
+    </script>    
+
+</head>
+<body>
+    <script>
+        //DOM 로딩 끝날 시 브라우저가 이벤트를 발행
+        //핸들러를 통해 호출해줌
+        //DOM 로딩이 끝났을 뿐 내부 이미지나 css 등까지 전부 로드되었는지는 모름 보장불가.
+        //단 돔로딩은 끝났으므로 내부의 element 들에 대한 처리는 보장가능.
+
+        //VS window.onload
+        //이건 정말로 모두의 로딩이 끝났을 때.
+
+        document.addEventListener('DOMContentLoaded',
+            //order3
+            ()=>console.log("DOM 로딩 완료")
+        );
+        //order2
+        console.log("hello,body");
+    </script>    
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="myButton">클릭하시오</button>
+    <script>
+      const button = document
+        .getElementById("myButton")
+        .addEventListener("click", function () {
+          console.log("버튼클릭됨");
+        });
+    </script>
+
+    <button id="myButton2" onclick="myClick2()">클릭하시오</button>
+    <script>
+        function myClick2() {
+          console.log("버튼클릭됨2");
+        };
+
+
+        //클릭은 더 세분화가능.
+        //mouseDown, 버튼눌림시에 작동. 클릭은 버튼 떼야 작동.
+
+        
+    </script>
+    <button id="myButton3">마우스다운</button>
+    <script>
+        const button3 = document
+        .getElementById("myButton3")
+        .addEventListener("mousedown", function (e) {
+            if(e.button ===0){
+                console.log("왼클릭");
+            }else if(e.button ===1){
+                console.log('휠클릭');
+            }else{
+                console.log('오른쪽클릭');
+            }
+
+            //switch 활용
+            //A나 arrowLeft 를 묶어서 좌로가도록 처리할때 등등..
+
+            //스위치 default : 그 외의 경우
+            
+        }); 
+        
+    </script>
+    
+  </body>
+</html>
