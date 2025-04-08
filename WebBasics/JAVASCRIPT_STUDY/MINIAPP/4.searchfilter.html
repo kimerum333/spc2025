@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h1>실시간 검색 기능</h1>    
+    <input type="text" id="searchinput" placeholder="검색...">
+    <ul id="itemlist">
+        <li>Apple</li>
+        <li>Banana</li>
+        <li>Orange</li>
+        <li>Strawberry</li>
+        <li>Grape</li>
+        <li>Watermelon</li>
+        <li>Pineapple</li>
+        <li>Mango</li>
+        <li>Peach</li>
+        <li>Pear</li>
+        <li>Kiwi</li>
+        <li>Blueberry</li>
+        <li>Raspberry</li>
+        <li>Cherry</li>
+        <li>Lemon</li>
+        <li>Lime</li>
+        <li>Coconut</li>
+        <li>Avocado</li>
+        <li>Pomegranate</li>
+        <li>Papaya</li>
+    </ul>
+    <script>
+        let userInput = document.getElementById('searchinput');
+        userInput.addEventListener('keyup',function(){
+            //검색에는 대소문자 따지는게 필요.
+            const inputText = userInput.value.toLowerCase();
+            const lists = document.querySelectorAll('#itemlist li');
+            lists.forEach(function(li){
+                if(li.textContent.toLowerCase().includes(inputText)){
+                    li.style.display='list-item';
+                    //또는 그냥 ''로도 가능
+                }else{
+                    li.style.display='none';
+                }
+            })
+        });
+    </script>
+</body>
+</html>

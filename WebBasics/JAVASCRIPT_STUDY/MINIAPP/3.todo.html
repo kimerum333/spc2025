@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+      .done {
+        text-decoration: line-through;
+      }
+      #todo-list li{
+        /*클릭요소엔 포인터 주는거 늘 잊지 말자*/
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>투두 리스트</h1>
+    <p>엔터로 입력가능 / 우클릭시 지워짐 / 클릭시 빗금</p>
+    <input type="text" placeholder="할일추가" name="" id="input" />
+    <button id="addbtn">Add</button>
+    <hr />
+    <ul id="todo-list"></ul>
+    <script>
+      const input = document.getElementById("input");
+      const addbtn = document.getElementById("addbtn");
+
+      //버튼클릭시 이벤트
+      addbtn.addEventListener("click", function () {
+        //입력이 없으면 추가하지 않음.
+        if (input.value.trim() == "") return;
+
+        const li = document.createElement("li");
+        li.textContent = input.value.trim();
+
+        //좌클릭으로 빗금긋기 - 토글
+        li.addEventListener("click", ()=> {
+          li.classList.toggle("done");
+        });
+
+        //삭제버튼 달아주고 누르면 삭제되게 하기.
+        const deletebtn = document.createElement('button');
+        deletebtn.innerText='삭제';
+        li.appendChild(deletebtn);
+        //
+        deletebtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          li.remove();
+        });
+        document.getElementById("todo-list").appendChild(li);
+        input.value = "";
+      });
+
+      //엔터시 추가버튼 클릭발생
+      input.addEventListener("keydown", function (e) {
+        if (e.key == "Enter") {
+          addbtn.click();
+        }
+      });
+      //시작시 인풋에 포커스
+      input.focus(input);
+    </script>
+  </body>
+</html>

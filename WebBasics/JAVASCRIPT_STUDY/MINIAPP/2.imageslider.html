@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .slider{
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+            align-items: center;
+        }
+        .slider img{
+            width: 400px;
+            height: 400px;
+            display: none;
+        }
+        .slider img.active{
+            display: block;
+        }
+        .buttons{
+            margin-top: 10px;
+        }
+        button{
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <h1>이미지 슬라이더</h1>
+        <img src="image/cat1.jpg" class="active" alt="고양이1">
+        <img src="image/cat2.webp" alt="고양이2">
+        <img src="image/cat3.webp" alt="고양이3">
+
+        <div class="filename" id="filename"></div>
+        <div class="buttons">
+            <button onclick="prev()" id="prev">이전</button>
+            <button onclick="next()" id="next">다음</button>
+        </div>
+    </div>
+    <script>
+        const images = document.querySelectorAll('.slider img');
+        const filename = document.getElementById('filename');
+        let indexContainer={
+            index : 0,
+            increaseIndex : function(){
+                this.index = ( this.index + 1 ) % images.length
+            },
+            decreaseIndex : function(){
+                if(this.index==0){
+                    this.index = images.length-1;
+                }else{
+                    this.index = ( this.index - 1 );
+                }
+            }
+        }
+        //버튼 가져다가 클릭하면 class=active 를 다음거로 이동하기
+        function next(){
+            let current = images[indexContainer.index];
+            indexContainer.increaseIndex();
+            let next = images[indexContainer.index];
+
+            current.classList.remove('active');
+            next.classList.add('active');
+            
+            //filename.innerText=next.getAttribute('src').split('/').pop();
+            updateFileName();
+        }
+        function prev(){
+            let current = images[indexContainer.index];
+            indexContainer.decreaseIndex();
+            let prev = images[indexContainer.index];
+
+            //토글이란게 있다.
+            current.classList.toggle('active');
+            prev.classList.toggle('active');
+            
+            //filename.innerText=prev.getAttribute('src').split('/').pop();
+            updateFileName();
+        }
+
+        function updateFileName(){
+            filename.textContent = document.querySelector('.active').getAttribute('src').split('/').pop();
+        }
+        updateFileName();
+
+        document.addEventListener('keydown',function(e){
+            if(e.key=='ArrowRight'){
+                next();
+            }else if(e.key=='ArrowLeft'){
+                prev();
+            }
+        });
+
+    </script>
+</body>
+</html>

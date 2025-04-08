@@ -138,3 +138,25 @@ ID로 가져오는 경우는 1개, 그 외의 경우는 복수의 엘리먼트�
 ###쿼리셀렉터
 이건 무조건 맨 앞의 하나만 가져온다 / 쿼리셀렉터 올은 복수를 가져온다.
 CSS셀렉터 문법을 써서 가져올 수 있다.
+
+# HTML Collection
+##querySelectorAll
+반환 타입: NodeList
+정적(static) 컬렉션 (스냅샷)
+DOM 변경사항이 자동으로 반영되지 않음
+배열 메서드를 사용하려면 변환 필요 (예: Array.from() 또는 전개 연산자 [...])
+forEach 메서드 내장
+
+
+## getElementsByTagName / getElementsByClassName
+반환 타입: HTMLCollection
+라이브(live) 컬렉션
+DOM이 변경되면 자동으로 업데이트됨
+인덱스와 .length로 접근 가능
+forEach 메서드 없음 (배열 메서드 직접 사용 불가)
+이 차이는 DOM 요소를 조작할 때 주의해야 할 중요한 부분입니다. 특히 반복문 안에서 요소를 추가하거나 제거할 때, 라이브 컬렉션은 예상치 못한 동작을 일으킬 수 있습니다.
+
+# 스프레드연산자
+let items = HTML콜렉션타입의 무언가...
+[...items] = 이렇게 하면 콜렉션이 풀린다. 패킹된 것들을 적절히 꺼내주는 연산자다.
+
