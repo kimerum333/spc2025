@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+      .calculator {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 10px;
+        max-width: 300px;
+        margin: auto;
+      }
+      .calculator > input {
+        grid-column: span 4;
+        padding: 10px;
+        font-size: 18px;
+      }
+
+      .calculator button {
+        padding: 10px;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator">
+      <input type="text" id="display" readonly />
+      <button onclick="clickSymbol(this)">+</button>
+      <button onclick="clickSymbol(this)">-</button>
+      <button onclick="clickSymbol(this)">*</button>
+      <button onclick="clickSymbol(this)">/</button>
+
+      <button onclick="clickNumber(this)">7</button>
+      <button onclick="clickNumber(this)">8</button>
+      <button onclick="clickNumber(this)">9</button>
+      <button onclick="calculate()">=</button>
+
+      <button onclick="clickNumber(this)">4</button>
+      <button onclick="clickNumber(this)">5</button>
+      <button onclick="clickNumber(this)">6</button>
+      <button onclick="clickSymbol(this)">C</button>
+
+      <button onclick="clickNumber(this)">1</button>
+      <button onclick="clickNumber(this)">2</button>
+      <button onclick="clickNumber(this)">3</button>
+      <button onclick="clickNumber(this)">0</button>
+    </div>
+    <script>
+      //1. 7번 입력하기
+      //2. 8번 입력하기 + 모든 숫자 입력
+      //3. 새로운 숫자로 덮어쓰지 말고, 있던 숫자 뒤에 입력한 숫자가 붙도록.
+      const display = document.getElementById("display");
+
+      function clickNumber(clickedElement) {
+        const number = clickedElement.innerText;
+        display.value = display.value + number;
+      }
+
+      function isSymbol(input) {
+        const availableSymbols = ["+", "-", "*", "/"];
+        return availableSymbols.includes(input);
+      }
+
+      function clickSymbol(clickedElement) {
+        const symbol = clickedElement.innerText;
+        // 입력된 심볼이 C라면 값을 전부 지운다.
+        if (symbol == "C") {
+          clear();
+          return;
+        }
+        //숙제1. 심볼은 하나씩만 입력되어야 한다. 또한, 숫자입력이 선행되지 않은 상태에서 심볼입력이 되어서도 안된다.
+        const lastInput = display.value.slice(-1);
+        if (isSymbol(lastInput)) {
+          //대체할거냐 무시할거냐
+        } else {
+          display.value = display.value + symbol;
+        }
+      }
+
+      function calculate() {
+        try {
+          if (isDivisionByZero(display.value)) {
+            display.value = "0으로 나누기 불가능";
+          } else {
+            display.value = eval(display.value);
+          }
+          
+        } catch (e) {
+          display.value = "error";
+        }
+
+        //숙제2. 실제로 연산이 되도록 만든다.
+        /*
+        if(isDivisionByZero(display.value)){
+          display.value = '0으로 나누기 불가능';
+        }else{
+          display.value = eval(display.value);
+        }
+
+        if(){
+
+        }*/
+      }
+      function isDivisionByZero(expression) {
+        for (let i = 0; i < expression.length; i++) {
+          //console.log(expression[i]);
+          if (expression[i] === "/") {
+            if (expression[i + 1] === "0") {
+              return true;
+            }
+          }
+        }
+      }
+
+      function clear() {
+        display.value = "";
+      }
+    </script>
+  </body>
+</html>
