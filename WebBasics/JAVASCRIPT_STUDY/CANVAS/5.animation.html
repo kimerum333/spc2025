@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+      canvas {
+        border: 1px dotted black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="400" height="300"> </canvas>
+    <script>
+      const canvas = document.getElementById("myCanvas");
+      const ctx = canvas.getContext("2d");
+
+      //애니메이션은 뭐냐? 같은거 반복해서 빨리 돌리기
+
+        let x = 0;
+        let direction = 1;
+      function draw(){
+        ctx.clearRect(0,0,canvas.width, canvas.height)
+        ctx.fillStyle = 'red';
+
+        let rectWidth = 100;
+        ctx.fillRect(x,50,rectWidth,50);
+/*
+        if(reverse){
+            x-=5;
+        }else{
+            x+=5;
+        }
+*/      
+        x= x+(5*direction);
+        if(x>canvas.width-rectWidth){
+            direction = -1;
+        }
+        if(x<0){
+            direction = 1;
+        }
+
+
+        //미션 : 네모가 끝까지 간다음 거꾸로 오게하려면
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+      canvas {
+        border: 1px dotted black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="400" height="300"> </canvas>
+    <script>
+      const canvas = document.getElementById("myCanvas");
+      const ctx = canvas.getContext("2d");
+
+      //공튀기기
+      let radius = 25;
+      let x = 0+radius;
+      let y = 0+radius;
+      let xDirection = 1;
+      let yDirection = 1;
+      let speed = 5;
+      let py = Math.PI*2;
+      let color = "lightgray";
+      
+
+      function draw(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height); //캔버스 전체를 지운다.
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, py); //x y 반지름 시작각 끝각
+        ctx.fillStyle = color;
+        ctx.fill();
+
+        x=x+speed*xDirection;
+        y=y+speed*yDirection;
+
+        if(y> (canvas.height-radius)){
+          yDirection=-1;
+        }
+
+        if(x>canvas.width-radius){
+          xDirection=-1;
+        }
+
+        if(y<(0+radius)){
+          yDirection=1;
+        }
+
+        if(x<0+radius){
+          xDirection=1;
+        }
+
+
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+
+    </script>
+  </body>
+</html>

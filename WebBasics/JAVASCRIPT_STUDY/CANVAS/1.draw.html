@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="400" height="300"></canvas>
+
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const context = canvas.getContext('2d'); //2d 그래픽을 그릴 수 있는 영역 컨텍스트라고 정의한 변수로 할당. 
+        const ctx = document.getElementById('myCanvas').getContext('2d');
+
+        //채워진 사각형 그리기
+        context.fillStyle = "#FF0000"; //빨간색
+        context.fillRect(50,50,100,80)//(x,y,width,height)
+
+        //사각형 선만 그리기.(채우지 않음)
+        context.strokeStyle = 'blue';
+        context.strokeRect(50,100,100,80);
+
+        //선 긋기
+        context.strokeStyle = '#0000FF'; //파란색
+        context.lineWidth = 2; //선 두께
+        context.beginPath();
+        context.moveTo(200,50); //첫 번쨰 좌표
+        context.lineTo(300,130); //시작점부터 여기까지 선을 그려
+        context.stroke();
+        context.closePath();
+
+        //원 그리기
+        context.fillStyle = "#00FF00"; //초록색
+        context.beginPath();
+        context.arc(350,50,30,0, 1.5 * Math.PI); // x y 반지름 시작각 끝각 이때 각도의 단위는 라디안 
+        context.fill();
+        context.closePath();
+
+
+
+        context.fillStyle = "#00FF00"; //초록색
+        context.beginPath();
+        context.arc(350,150,30,0, 1 * Math.PI); // x y 반지름 시작각 끝각 이때 각도의 단위는 라디안 
+        context.fill();
+        context.stroke();
+        context.closePath();
+
+    </script>
+</body>
+</html>

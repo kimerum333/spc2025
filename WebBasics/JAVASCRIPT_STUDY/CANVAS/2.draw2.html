@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+      canvas {
+        border: 1px dashed black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="400" height="300"> </canvas>
+    <script>
+      const ctx = document.getElementById("myCanvas").getContext("2d");
+
+      ctx.beginPath();
+      ctx.moveTo(300, 100);
+
+      const startAngle = 0.1 * Math.PI; //대충 45도
+      const endAngle = 1.8 * Math.PI; //
+
+      ctx.arc(300, 100, 50, startAngle, endAngle);
+      ctx.fillStyle = "yellow";
+      ctx.fill();
+      ctx.closePath();
+
+      //얼굴 그리기
+      ctx.beginPath();
+      //얼굴의 바깥원
+      ctx.arc(75, 75, 50, 0, Math.PI * 2); //x y 반지름 시작각 끝각
+      //얼굴의 입
+      ctx.moveTo(100, 90);
+      ctx.arc(75, 90, 25, 0, Math.PI * 1);
+      //왼눈
+      ctx.moveTo(60, 55);
+      ctx.arc(50, 55, 10, 0, Math.PI * 2);
+      //오른눈
+      ctx.moveTo(110, 55);
+      ctx.arc(100, 55, 10, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.closePath();
+    </script>
+  </body>
+</html>

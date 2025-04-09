@@ -50,7 +50,7 @@
 
       function pause() {
         clearInterval(timerInterval);
-        elapsedTime = Date.now() - startTime;
+        pauseElapsedTime = Date.now() - startTime;
       }
 
       function reset() {
@@ -67,9 +67,13 @@
 
       function updateDisplay() {
         // 경과 시간을 분, 초, 밀리초로 변환
-        const minutes = Math.floor(elapsedTime / (1000 * 60));
-        const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
-        const milliseconds = Math.floor((elapsedTime % 1000) / 10); // 소수점 둘째자리까지만
+        // 의미있는 상수로 적어뒀으면 헷갈리지 않을 것이다.
+        const MINUTE_MS = 1000 * 60 ;
+        const SECOND_MS = 1000;
+
+        const minutes = Math.floor(elapsedTime / MINUTE_MS);
+        const seconds = Math.floor((elapsedTime % MINUTE_MS) / SECOND_MS);
+        const milliseconds = Math.floor((elapsedTime % SECOND_MS) / 10); // 소수점 둘째자리까지만
 
         // 각 숫자를 두 자리로 포맷팅
         const formattedTime = `${formatTime(minutes)}:${formatTime(seconds)}:${formatTime(milliseconds)}`;
