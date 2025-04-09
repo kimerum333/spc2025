@@ -1,47 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Document</title>
     <style>
-        .container{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-            align-items: center;
-        }
-        button{
-            padding: 10px 20px;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-        .container p{
-            font-size: 36px;
-            font-weight: Bold;
-            margin-top: 20px;
-        }
-        .button-container{
-            display: flex;
-        }
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        text-align: center;
+        align-items: center;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+      .container p {
+        font-size: 36px;
+        font-weight: Bold;
+        margin-top: 20px;
+      }
+      .button-container {
+        display: flex;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <p>00:00.00</p>
-        <div class="button-container">
-            <button>start</button>
-            <button>stop</button>
-            <button>reset</button>    
-        </div>
+      <p id="display">00:00.00</p>
+      <div class="button-container">
+        <button onclick="start()">start</button>
+        <button onclick="pause()">stop</button>
+        <button onclick="reset()">reset</button>
+      </div>
     </div>
-    
-
 
     <script>
+      let startTime;
+      let elapsedTime = 0;
+      let timerInterval;
 
-    </script>    
-</body>
+      function start() {
+        startTime = Date.now() - elapsedTime;
+        timerInterval = setInterval(updateTime, 10); // 10ms마다 업데이트 (밀리초 단위로 표시하기 위해)
+      }
+
+      function pause() {
+        clearInterval(timerInterval);
+        elapsedTime = Date.now() - startTime;
+      }
+
+      function reset() {
+        clearInterval(timerInterval);
+        elapsedTime = 0;
+        updateDisplay();
+      }
+
+      function updateTime() {
+        const now = Date.now();
+        elapsedTime = now - startTime;
+        updateDisplay();
+      }
+
+      function updateDisplay() {
+        // 경과 시간을 분, 초, 밀리초로 변환
+        const minutes = Math.floor(elapsedTime / (1000 * 60));
+        const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+        const milliseconds = Math.floor((elapsedTime % 1000) / 10); // 소수점 둘째자리까지만
+
+        // 각 숫자를 두 자리로 포맷팅
+        const formattedTime = `${formatTime(minutes)}:${formatTime(seconds)}:${formatTime(milliseconds)}`;
+        document.getElementById("display").textContent = formattedTime;
+      }
+
+      function formatTime(number) {
+        return number.toString().padStart(2, "0");
+      }
+    </script>
+  </body>
 </html>
