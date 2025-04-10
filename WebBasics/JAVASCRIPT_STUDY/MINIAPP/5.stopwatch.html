@@ -42,21 +42,28 @@
       let startTime;
       let elapsedTime = 0;
       let timerInterval;
+      let running = false;
 
       function start() {
+        if(running){
+          return;
+        }
         startTime = Date.now() - elapsedTime; 
         timerInterval = setInterval(updateTime, 10); // 10ms마다 업데이트 (밀리초 단위로 표시하기 위해)
+        running = true;
       }
 
       function pause() {
         clearInterval(timerInterval);
         elapsedTime = Date.now() - startTime;
+        running = false;
       }
 
       function reset() {
         clearInterval(timerInterval);
         elapsedTime = 0;
         updateDisplay();
+        running=false;
       }
 
       function updateTime() {
