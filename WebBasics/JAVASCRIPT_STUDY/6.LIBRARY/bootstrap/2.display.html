@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <h1>부트스트랩 예제</h1>
+    <section class="mb-5">
+      <h3>1. d-* 클래스</h3>
+      <div class="d-block bg-light p-2 border">d-block 블럭 요소</div>
+      <div class="d-block bg-success p-2 border mb-2">d-block 블럭 요소</div>
+
+      <div class="d-inline bg-light p-2 border">d-inline 인라인 요소</div>
+      <div class="d-inline bg-warning p-2 border">d-inline 인라인 요소</div>
+      <div class="d-inline bg-info p-2 border">d-inline 인라인 요소</div>
+    </section>
+    <section class="mb-5">
+      <h3>2. visible / invisible 클래스</h3>
+      <div class="bg-success text-white p-2 mb-2">항상 보이는 요소</div>
+      <div class="bg-success text-white p-2 mb-2 invisible">
+        항상 안보이는 요소(공간은 차지중)
+      </div>
+    </section>
+    <section class="mb-5">
+      <h3>3. d-none 및 조건부 표시</h3>
+      <div class="d-none">이건 디논이라 안보임</div>
+      <div class="d-sm-block d-md-none bg-primary text-white p-2">
+        여기 글자는 작은해상도에서만 보임(sm:575px)
+      </div>
+      <div class="d-none bg-success text-white p-2 d-sm-block d-md-block">
+        여기 글자는 중간이상 해상도에서만 보임(sm:768px)
+      </div>
+    </section>
+    <section class="mb-5">
+      <h3>4. 마진(m-*) 패딩(p-*)</h3>
+      <div class="bg-light border p-2 mb-2">기본 박스</div>
+      <div class="bg-light border p-2 m-3">m3 마진</div>
+      <div class="bg-light border p-2 ms-3">ms 3 마진</div>
+
+      <div class="bg-light border p-2 m-5">m5 마진</div>
+      <div class="bg-light border p-2 ms-5">m3 사이드 마진</div>
+    </section>
+
+    <section class="mb-5">
+      <h3>5. Flex 레이아웃</h3>
+      <div class="d-flex gap-2">
+        <div class="bg-primary text-white p-2">플렉스 아이템1</div>
+        <div class="bg-secondary text-white p-2">플렉스 아이템1</div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h3>5. Flex 레이아웃</h3>
+      <div class="d-grid gap-2" style=""></div>
+      <div class="bg-primary text-white p-2">플렉스 아이템1</div>
+      <div class="bg-secondary text-white p-2">플렉스 아이템1</div>
+      <div class="bg-warning text-white p-2">플렉스 아이템1</div>
+      <div class="bg-info text-white p-2">플렉스 아이템1</div>
+      <div class="bg-success text-white p-2">플렉스 아이템1</div>
+      <div class="bg-danger text-white p-2">플렉스 아이템1</div>
+
+    </section>
+
+    <script></script>
+  </body>
+</html>
