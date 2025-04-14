@@ -1,7 +1,7 @@
 const Person = require('./Person');
 
 class Employee extends Person{
-    constructor(name,jobTitle){
+    constructor(name,jobTitle){ 
         super(name);
         this.jobTitle = jobTitle;
     }
