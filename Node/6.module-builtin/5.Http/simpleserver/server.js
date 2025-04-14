@@ -11,8 +11,9 @@ const server = http.createServer();
 
 server.on('request', (req, res) => {
     console.log('요청이 왔음');
-    res.writeHead(200);
+    res.writeHead(200,'You are doing good Request!');
     res.end(page);
+    console.log(req);
 });
 
 server.on('connection', () => {
