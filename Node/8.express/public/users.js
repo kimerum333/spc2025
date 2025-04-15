@@ -4,7 +4,7 @@ updateTable();
 
 function updateUser(id) {
     const div = document.querySelector(`.user-${id}`);
-//    const input = div.querySelector('.user-name');
+    //    const input = div.querySelector('.user-name');
     const input = prompt('이름을 뭘로 바꿀래요?');
 
     const name = input.trim();
@@ -22,7 +22,7 @@ function updateUser(id) {
 function deleteUser(id) {
 
     const confirmDel = confirm('정말로 삭제하시겠습니까?');
-    if(!confirmDel){
+    if (!confirmDel) {
         return;
     }
     fetch(`/users/${id}`, {
@@ -39,13 +39,14 @@ class User {
         this.updatedAt = updatedAt
     }
     makeComponent() {
+        const format = (ms) => new Date(ms).toLocaleString();
         return `
-                <span class="user-id">ID: ${this.id}</span>
-                <input class="user-name" type="text" value="${this.name}">
-                <span class="user-createdAt">등록시각: ${Date(this.createdAt)}</span>
-                <span class="user-updatedAt">최종수정시각: ${Date(this.updatedAt)}</span>
-                <button onclick="updateUser(${this.id})">수정</button>
-                <button onclick="deleteUser(${this.id})">삭제</button>
+            <span class="user-id">ID: ${this.id}</span>
+            <input class="user-name" type="text" value="${this.name}">
+            <span class="user-createdAt">등록시각: ${format(this.createdAt)}</span>
+            <span class="user-updatedAt">최종수정시각: ${format(this.updatedAt)}</span>
+            <button onclick="updateUser(${this.id})">수정</button>
+            <button onclick="deleteUser(${this.id})">삭제</button>
         `;
     }
 }
