@@ -96,3 +96,6 @@ const fs = require('fs');
 ## ES6
 import ... from ...
 => type: module 작성 필요.
+
+# 미들웨어
+익스프레스에서 예시들자면, app.use
