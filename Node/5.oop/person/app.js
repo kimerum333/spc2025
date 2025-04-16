@@ -5,6 +5,10 @@ const Employee = require('./Employee');
 let jake = new Person('jake');
 console.log(jake.greet());
 
+let bob = new Person('bob');
+console.log(bob.greet());
+
+
 let sam = new Student('sam','politics');
 console.log(sam.greet());
 

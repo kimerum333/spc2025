@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #thumbnail-container{
+            display: flex;
+        }
+        #thumbnail-container img{
+            width: 25%;
+            margin: 5px;
+            cursor: pointer;
+        }
+        #center img{
+            width: 70%;
+        }
+        #dummy{
+            display: none;
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+    <h1>이미지 갤러리</h1>
+    <div id="thumbnail-container">
+        <img src="./image/cat1.jpg" alt="고양이1">
+        <img src="./image/cat2.webp" alt="고양이2">
+        <img src="./image/cat3.webp" alt="고양이3">
+    </div>
+    <div id="center">
+    </div>
+    <img id="dummy" src="">
+    <script>
+        const dummy = document.getElementById("dummy");
+        const center = document.getElementById("center");
+        //이벤트리스너 달아주기
+        const images = document.querySelectorAll('#thumbnail-container img');
+
+        //방식2 자식 만들어주기(포이치 쓰기)
+        images.forEach(function(origin){
+            origin.addEventListener('click',function(){
+                let img = document.createElement('img');
+                img.src = origin.src;
+                center.innerHTML='';
+                center.appendChild(img);
+            })
+        });
+        //방식1 더미이미지 놓고 src변경하기
+        for(let origin of images){
+            origin.addEventListener('click',function(){
+                dummy.src = origin.src;
+                //디스플레이 넌의 반대는 블록임을 기억하기
+                dummy.style.display = 'block'
+            })
+        }
+
+        //방식3 포이치 돌리기
+    </script>
+</body>
+</html>
