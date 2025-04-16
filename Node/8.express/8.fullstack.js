@@ -58,10 +58,15 @@ app.get('/users/:id',(req,res)=>{
 
 //post
 app.post('/users',(req,res)=>{
-    const user = new User(req.body.name);
-    console.log('생성된 유저의 정보 : ',user);
-    users.push(user);
-    res.send('유저가 잘 생성되었습니다.');
+    //각 요청에 대해 에러 처리 필수...
+    try{
+        const user = new User(req.body.name);
+        console.log('생성된 유저의 정보 : ',user);
+        users.push(user);
+        res.status(201).send('유저가 잘 생성되었습니다.');
+    }catch(err){
+        res.status(500).send('알 수 없는 에러');
+    }
 });
 
 //update
@@ -82,13 +87,17 @@ app.put('/users',(req,res)=>{
 
 //delete
 app.delete('/users/:id',(req,res)=>{
-    const id = Number(req.params.id);
-    let userindex = users.findIndex( u=>u.id===id);
-    if(userindex==-1){
-        res.status(404).send('그런 유저는 없습니다.');
-    }else{
-        users.splice(userindex,1);
-        res.send('잘 지워졌습니다.');
+    try{
+        const id = Number(req.params.id);
+        let userindex = users.findIndex( u=>u.id===id);
+        if(userindex==-1){
+            res.status(404).send('그런 유저는 없습니다.');
+        }else{
+            users.splice(userindex,1);
+            res.status(204).send('잘 지워졌습니다.');
+        }    
+    }catch(err){
+        
     }
 });
 
