@@ -7,10 +7,10 @@ function printChatbot({ message, sender = 'user' }) {
 
     if (sender === 'user') {
         div.classList.add('mine');
-        div.innerText = "나 : " + message;
+        div.innerHTML = `<i class="bi bi-person"></i> : ${message}`;
     } else {
         div.classList.add('echo');
-        div.innerText = "에코 : " + message;
+        div.innerHTML = `<i class="bi bi-robot"></i>: ${message}`;
     }
     messageArea.appendChild(div);
 }
