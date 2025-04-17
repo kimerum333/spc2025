@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=ㅇ">
+    <title>Document</title>
+</head>
+<body>
+    <h1>JSON 송수신 예제</h1>
+    <textarea name="" id="jsonInput">{"name":"John", "age": "30"}</textarea>
+    <button id="sendJsonBtn">전송</button>
+
+    <h1>폼데이터(x-www-form-urlencoded) 송수신 예제</h1>
+    <!-- <form action="/submit-form" method="post"> -->
+    <form id="myForm">
+        <input type="text" name="userName" id="formName" placeholder="이름" value="John">
+        <input type="text" name="userAge" id="formAge" placeholder="나이" value="30">
+        <button type="submit" id="sendFormBtn">전송</button>
+    </form>
+
+    <h2>그냥 plaintext 로 주고받기</h2>
+    <textarea name="" id="plainTextInput" cols="30" rows="10">여기에 텍스트를 입력하세요</textarea>
+    <button id="sendPlainTextBtn">전송</button>
+
+    <!-- <h1>폼데이터(multipart/form-data) 송수신 예제</h1>
+    <form id="myForm2" enctype="multipart/form-data">
+        <input type="text" name="name" id="name" placeholder="이름" value="John">
+        <input type="file" name="file" id="fileInput">
+        <button type="submit" id="sendFileBtn">전송</button>
+    </form> -->
+
+    <h1>응답 출력</h1>
+    <pre id="output">응답은 여기에 출력</pre>
+    <script src="script.js"></script>
+</body>
+</html>
