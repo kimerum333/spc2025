@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>fetch 를 사용한 외부요청</h1>
+    <button id="loadDataBtn">데이터 로드</button>
+    <button id="sendDataBtn">데이터 전송</button>
+    <button id="loadImageBtn">이미지 로드</button>
+    <div id="result"></div>
+    <script>
+        document.getElementById('loadDataBtn').addEventListener('click', () => {
+            fetch('https://1jsonplaceholder.typicode.com/posts/1')
+                //사실 페치는 에러처리를 여기서 수동으로 해야한다. 200이 아니면 에러를 던져야함
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerHTML = `
+                <p><strong>타이틀</strong> ${data.title} </p>
+                <p><strong>본문</strong> ${data.body} </p>
+                `
+                })
+                .catch(error => {
+                    document.getElementById('result').innerHTML = `
+                <p>오류가 발생</p>
+                `
+                })
+        });
+
+        document.getElementById('sendDataBtn').addEventListener('click', () => {
+            const postData = {
+                title: 'foo',
+                body: 'bar',
+                userId: 1
+            };
+            fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                },
+                body: JSON.stringify(postData)
+            })
+                .then(result => result.json())
+                .then(json => {
+                    document.getElementById('result')
+                        .innerHTML = JSON.stringify(json, null, 2);
+                });
+        });
+
+        document.getElementById('loadImageBtn').addEventListener('click', () => {
+            fetch('https://dog.ceo/api/breeds/image/random')
+            .then(response=>{
+                if(!response.ok){
+                    throw new Error('데이터 수신 오류');
+                }
+                return response.json();
+            })
+            .then(data=>{
+                document.getElementById('result').innerHTML=`
+                <img src="${data.message}" alt="">
+                `;
+                //미션2 리절트창에 데이터 출력
+            })
+        });
+
+    </script>
+</body>
+
+</html>

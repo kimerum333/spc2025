@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <h1>axios 를 사용한 외부요청</h1>
+    <button id="loadDataBtn">데이터 로드</button>
+    <button id="sendDataBtn">데이터 전송</button>
+    <button id="loadImageBtn">이미지 로드</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('loadDataBtn').addEventListener('click', async () => {
+            //axios 는 fetch 와 달리 200이 아니면 에러 던지는 기능을 이미 스스로 구현중.
+            try {
+                const response = await axios.get('https://1jsonplaceholder.typicode.com/posts/1');
+                const data = response.data;
+                //console.log(data);
+                document.getElementById('result').innerHTML = `
+                <p><strong>타이틀</strong> ${data.title} </p>
+                <p><strong>본문</strong> ${data.body} </p>
+                `;
+            }catch(err){
+                document.getElementById('result').innerHTML=`
+                <p>오류가 발생</p>`
+            }
+        });
+
+        document.getElementById('sendDataBtn').addEventListener('click', async() => {
+            const postData = {
+                title: 'foo',
+                body: 'bar',
+                userId: 1
+            };
+            let response = await axios.post('https://jsonplaceholder.typicode.com/posts', postData)
+            let json = response.data;
+            document.getElementById('result').innerHTML = JSON.stringify(json,null,2);
+        });
+        //미션3 좌측의 페치코드를 axios로 변경.
+        document.getElementById('loadImageBtn').addEventListener('click', () => {
+            axios.get('https://dog.ceo/api/breeds/image/random')
+            .then(response=>{
+                let src = response.data.message;
+                document.getElementById('result').innerHTML=`
+                <img src="${src}" alt="">
+                `;
+            })
+            .catch(error=>{
+                document.getElementById('result').innerHTML = `<p>에러 발생!</p>`;
+            })
+        });
+
+    </script>
+</body>
+
+</html>
