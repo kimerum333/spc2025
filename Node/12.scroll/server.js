@@ -10,16 +10,10 @@ const data = Array.from({ length: 200 }, (_, i) => `Item ${i + 1}`);
 
 
 //객체
-class Page {
-    //TODO hasNext = false;
-    constructor(page, size) {
-        this.page = page;
-        this.size = size;
-    }
-    paginate(data) {
-        let startIndex = this.size * (this.page - 1);
-        let endIndex = startIndex + this.size;
-        return data.slice(startIndex,endIndex);
+class ItemResponse {
+    constructor(startIndex, endIndex) {
+        this.items = data.slice(startIndex, endIndex);
+        this.lastIndex = data.length;
     }
 }
 
@@ -38,11 +32,9 @@ app.get('/', (req, res) => {
 
 
 app.get('/get-items', (req, res) => {
-
-    const page = new Page(Number(req.query.page), Number(req.query.size));
-    const answer = page.paginate(data);
-
-    res.json(answer);
+    const page = new ItemResponse(req.query.from , req.query.to);
+    console.log(page)
+    res.json(page);
 });
 
 
@@ -50,4 +42,5 @@ app.get('/get-items', (req, res) => {
 //리슨
 app.listen(port, () => {
     console.log('서버 레디');
+    //console.log(data);
 });

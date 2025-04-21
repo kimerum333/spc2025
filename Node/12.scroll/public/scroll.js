@@ -26,6 +26,9 @@ const STORAGE = {
 
     async toDownward() {
         this.currentIndexTo += this.requestSize;
+        if(this.lastIndex && this.currentIndexTo > this.lastIndex ){
+            this.currentIndexTo = this.lastIndex;
+        }
 
         let diffrence = this.currentIndexTo - this.currentIndexFrom
         if (diffrence > this.maxPageSize) {
@@ -44,27 +47,23 @@ const STORAGE = {
         }
     },
 
-
-    async checkAndFetch(){
-        if(this.lastIndex!=null & this.currentIndexTo > this.lastIndex){
-            this.currentIndexTo = this.lastIndex;
-        }
-
-        if(this.lastStoredIndex < this.currentIndexTo){
-            let requestFrom = this.lastStoredIndex+1;
+    async checkAndFetch() {
+        if (this.lastStoredIndex < this.currentIndexTo) {
+            let requestFrom = (this.lastIndex == null) ? 0 : this.lastStoredIndex;
             let requestTo = requestFrom + this.requestSize;
 
-            if(requestTo - requestFrom <= 0){
+            if (requestTo - requestFrom <= 0) {
                 return;
             }
             let jsonItems = await FETCHER.getItems(requestFrom, requestTo);
 
-            for (item of jsonItems){
+            for (item of jsonItems.items) {
                 this.cachedItems.push(item);
             }
+            this.lastIndex = jsonItems.lastIndex;
+            this.lastStoredIndex = requestTo;
         }
-    }
-
+    },
 }
 
 // 화면에 아이템 출력하는 것을 담당.
@@ -73,42 +72,60 @@ const RENDERER = {
     renderItems() {
         const printPlace = document.getElementById('item-container');
         printPlace.innerHTML = "";
-        for (let i = Storage.currentIndexFrom; i <= Storage.currentIndexTo; i++) {
+        for (let i = STORAGE.currentIndexFrom; i < STORAGE.currentIndexTo; i++) {
+            console.log(`in renderItems, i = ${i}, from = ${STORAGE.currentIndexFrom}, to = ${STORAGE.currentIndexTo}`)
             let div = document.createElement('div');
             div.classList.add('item');
-            div.innerHTML = Storage.cachedItems[i];
+            div.innerHTML = STORAGE.cachedItems[i];
             printPlace.appendChild(div);
         }
     }
 };
 
 const SCROLL_MANAGER = {
-    async handleScrollDown(){
+    async handleScrollDown() {
+        // console.log('down호출됨');
         await STORAGE.toDownward();
         RENDERER.renderItems();
     },
-    handleScrollUp(){
-        STORAGE.toDownward();
+    handleScrollUp() {
+        // console.log('up호출됨');
+        STORAGE.toUpward();
         RENDERER.renderItems();
     }
 }
 
 //이벤트 리스너
 document.addEventListener('DOMContentLoaded', () => {
-    //초기 1회 
-    REQUEST_PAGE_MANAGER.getItems();
-
+    //초기 1회
+    SCROLL_MANAGER.handleScrollDown();
 });
 
+
+const READY = true;
+const WAITING = false;
+let scrollStatus = READY;
 window.addEventListener('scroll', () => {
-    //console.log('(표준)스크롤바 위치 :', window.scrollY);
-    // console.log('스크롤위치 :', document.documentElement.scrollTop);
-    // console.log('윈도우 높이',window.innerHeight)
-    //const scrollEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
-    if (scrollEnd) {
-        //console.log('현재페이지,',currentPage);
-        //getItems(++currentPage);
-        //console.log('로딩후페이지,',currentPage);
+    if(scrollStatus == WAITING){
+        return;
+    }
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight){
+        SCROLL_MANAGER.handleScrollDown();
+        scrollStatus = WAITING;
+        waitScroll()
+        return;
+    }
+    if (window.scrollY === 0) {
+        SCROLL_MANAGER.handleScrollUp();
+        waitScroll()
+        return;
+    }
+
+    function waitScroll(){
+        scrollStatus = WAITING;
+        setTimeout(() => {
+            scrollStatus = READY;
+        }, 500);
     }
 });
 
