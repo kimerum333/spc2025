@@ -1,0 +1,2 @@
+-- Provide a query showing Customers (just their full names, customer ID and country) who are not in the US.
+SELECT customerid, firstname || ' ' || lastname as fullname, country FROM Customers WHERE country != 'USA';

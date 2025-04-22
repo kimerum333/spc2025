@@ -10,3 +10,6 @@ chromedriver/
 
 #파이선 환경변수 세팅 (dotenv)
 .env
+
+#sqlite
+*.db
