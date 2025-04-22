@@ -13,3 +13,4 @@ chromedriver/
 
 #sqlite
 *.db
+*.pyc
