@@ -72,6 +72,7 @@ const RENDERER = {
     renderItems() {
         const printPlace = document.getElementById('item-container');
         printPlace.innerHTML = "";
+        let firstLoadedContents
         for (let i = STORAGE.currentIndexFrom; i < STORAGE.currentIndexTo; i++) {
             console.log(`in renderItems, i = ${i}, from = ${STORAGE.currentIndexFrom}, to = ${STORAGE.currentIndexTo}`)
             let div = document.createElement('div');
@@ -82,7 +83,7 @@ const RENDERER = {
     }
 };
 
-const SCROLL_MANAGER = {
+const SCROLL_MANAGER = {        
     async handleScrollDown() {
         // console.log('down호출됨');
         await STORAGE.toDownward();
