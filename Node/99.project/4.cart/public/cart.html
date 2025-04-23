@@ -11,6 +11,22 @@
         <button id="productBtn">product</button>
         <button id="cartBtn">cart</button>
     </nav>
+    <div id="cart-container">
+        <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+
+            </tbody>
+          </table>
+    </div>
 </body>
     <script>
         const homeBtn = document.getElementById('homeBtn');
@@ -26,5 +42,23 @@
         cartBtn.addEventListener('click',()=>{
             window.location.href = '/cart';
         });
+
+        class CartProduct{
+            constructor(id,name,price,quantity){
+                this.id = id;
+                this.name = name;
+                this.price = price;
+                this.quantity = quantity;
+            }
+            makeDiv(){
+                return `
+                    <td>${this.id}</td>
+                    <td>${this.name}</td>
+                    <td>${this.price}</td>
+                    <td>${this.quantity}</td>
+                    <td><button onclick="removeCart(${this.id})" type="button">삭제하기</button></td>
+                `;
+            }
+        }
     </script>
 </html>

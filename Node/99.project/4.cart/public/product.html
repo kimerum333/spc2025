@@ -76,7 +76,8 @@
         fetchProducts();
         
         async function addCart(productId){
-            const response = await fetch(`/api/cart/${productId}`);
+            // const response = await fetch(`/api/cart/${productId}`);
+            window.location.href=`/addCart/${productId}`;
         }
     </script>
 </html>

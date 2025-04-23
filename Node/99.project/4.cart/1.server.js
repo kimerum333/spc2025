@@ -47,12 +47,29 @@ app.get('/api/getProducts', async (req,res)=>{
     return res.json( { products } );
 });
 
-app.get('addCart/:productId',(req,res)=>{
+app.get('/addCart/:productId',async (req,res)=>{
+    //로그인여부 체크
     if(!req.session){
         res.redirect('/product.html');
     }else{
-        let cart = req.session.cart || [];
-        
+        let reqProdNum = Number(req.params.productId);
+        if(!req.session.cart){ //카트 자체가 없음
+            req.session.cart = [];
+            let itemDetail = await getProductById(reqProdNum);
+            req.session.cart.push({...itemDetail, quantity : 1});
+            //console.log(req.session.cart);
+        }else{ //카트는 있음
+            let item = req.session.cart.find((product)=>{return product.id === reqProdNum});
+            if(item){ //카트에 해당 아이템이 있음
+                //console.log(item);
+                item.quantity++;
+            }else{  //카트에 해당 아이템이 없음
+                let itemDetail = await getProductById(reqProdNum);
+                req.session.cart.push({...itemDetail, quantity : 1});
+            }    
+        }
+        console.log('카트상태 : ',req.session.cart);
+        res.redirect('/cart.html');
     }
 })
 
