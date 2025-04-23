@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    
+    </style>
+</head>
+
+<body>
+    <nav>
+        <button id="homeBtn">home</button>
+        <button id="productBtn">product</button>
+        <button id="cartBtn">cart</button>
+    </nav>
+    <hr>
+    <form id="loginform" action="/login" method="post">
+        <input id="username" type="text" name="username">
+        <input id="password" type="text" name="password">
+        <button id="loginBtn">제출</button>
+    </form>
+    <div id="result">
+
+    </div>
+
+</body>
+<script>
+    const homeBtn = document.getElementById('homeBtn');
+    const productBtn = document.getElementById('productBtn');
+    const cartBtn = document.getElementById('cartBtn');
+
+    homeBtn.addEventListener('click', () => {
+        window.location.href = '/home';
+    });
+    productBtn.addEventListener('click', () => {
+        window.location.href = '/product';
+    });
+    cartBtn.addEventListener('click', () => {
+        window.location.href = '/cart';
+    });
+    const loginBtn = document.getElementById('loginBtn');
+
+    loginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const result = document.getElementById('result');
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+            .then(response => response.text())
+            .then(data => {
+                result.innerHTML = data;
+            })
+            .catch(error => {
+                result.innerHTML = error;
+
+            });
+    });
+
+</script>
+
+</html>

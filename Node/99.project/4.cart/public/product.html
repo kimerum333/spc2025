@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <button id="homeBtn">home</button>
+        <button id="productBtn">product</button>
+        <button id="cartBtn">cart</button>
+    </nav>
+    <div id="product-container">
+        <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+
+            </tbody>
+          </table>
+    </div>
+</body>
+    <script>
+        const homeBtn = document.getElementById('homeBtn');
+        const productBtn = document.getElementById('productBtn');
+        const cartBtn = document.getElementById('cartBtn');
+
+        homeBtn.addEventListener('click',()=>{
+            window.location.href = '/home';
+        });
+        productBtn.addEventListener('click',()=>{
+            window.location.href = '/product';
+        });
+        cartBtn.addEventListener('click',()=>{
+            window.location.href = '/cart';
+        });
+
+        class Product{
+            constructor(id,name,price){
+                this.id = id;
+                this.name = name;
+                this.price = price;
+            }
+            makeDiv(){
+                return `
+                    <td>${this.id}</td>
+                    <td>${this.name}</td>
+                    <td>${this.price}</td>
+                    <td><button onclick="addCart(${this.id})" type="button">담기</button></td>
+                `;
+            }
+        }
+        const productContainer = document.getElementById('product-container');
+
+        function fetchProducts(){
+            const tableBody = document.getElementById('table-body');
+            fetch('/api/getProducts')
+            .then((result)=>{return result.json()})
+            .then((json)=>{
+                //console.log(json);
+                json.products.forEach(element => {
+                    let htmlString = new Product(element.id,element.name,Number(element.price)).makeDiv();
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = htmlString;
+                    tableBody.appendChild(tr);
+                });
+            }) //{ "products" : [{ "id": 1 , "name" : "lalalala" , "price" : 3000 }]}
+        }
+        fetchProducts();
+        
+        async function addCart(productId){
+            const response = await fetch(`/api/cart/${productId}`);
+        }
+    </script>
+</html>
