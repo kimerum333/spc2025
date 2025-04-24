@@ -3,7 +3,7 @@ import morgan from 'morgan';
 
 import homeRoutes from './2.routes/homeRoutes.js';
 import postRoutes from './2.routes/postRoutes.js';
-import postApi from './2.routes/api/postAPi.js';
+import postApi from './2.routes/api/postApi.js';
 
 
 const app = express();
