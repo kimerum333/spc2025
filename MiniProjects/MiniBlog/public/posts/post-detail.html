@@ -7,6 +7,8 @@
   <title>blog-detail</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-50 text-gray-900">
@@ -22,8 +24,10 @@
       </div>
 
       <div class="mt-6 flex gap-4">
-        <button id="read-edit-button" data-auth="my" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">수정</button>
-        <button id="read-delete-button" data-auth="my" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">삭제</button>
+        <button id="read-edit-button" data-auth="my"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">수정</button>
+        <button id="read-delete-button" data-auth="my"
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">삭제</button>
       </div>
     </section>
 
@@ -32,12 +36,18 @@
       <div>
         <input type="text" id="edit-title" placeholder="제목"
           class="text-2xl font-bold w-full border-b mb-4 focus:outline-none" />
-        <textarea id="edit-content" placeholder="내용을 입력하세요" class="w-full h-[300px] p-2 border rounded"></textarea>
+        <div>
+          <div id="edit-toolbar"></div>
+          <div id="edit-content">
+
+          </div>
+        </div>
       </div>
 
       <div class="mt-6 flex gap-4">
         <button id="edit-post-button" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">등록</button>
-        <button id="edit-cancel-button" data-mode="edit" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">취소</button>
+        <button id="edit-cancel-button" data-mode="edit"
+          class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">취소</button>
       </div>
     </section>
 

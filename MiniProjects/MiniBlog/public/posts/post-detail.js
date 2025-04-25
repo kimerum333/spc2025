@@ -9,6 +9,7 @@ const MODE = {
 
 //전역변수
 let mode = MODE.READ;
+let quill = null;
 
 
 //유틸함수
@@ -29,59 +30,62 @@ function applyModeRendering(currentMode = mode) {
 
 //통신 함수
 function writeOrEditPost() {
-    function writePost(){
+    function writePost() {
         const title = document.getElementById('edit-title').value;
-        const content = document.getElementById('edit-content').value;
+        //const content = document.getElementById('edit-content').value;
+        const content = quill.root.innerHTML;
+        
         const authorId = 1; //TODO 유저 만들어지기 전까진 하드코딩
         const post = new Post({ title, content, authorId });
-    
+
         console.log(post.toJSON());
-    
-        axios.post('/api/posts',post.toJSON())
-        .then((response)=>{
-            const postId = response.data.postId;
-            //window.location.href = `/posts/${postId}`;
-            window.location.href=`/posts`;
-        })
-        .catch((err)=>console.log(err));    
+
+        axios.post('/api/posts', post.toJSON())
+            .then((response) => {
+                const postId = response.data.postId;
+                //window.location.href = `/posts/${postId}`;
+                window.location.href = `/posts`;
+            })
+            .catch((err) => console.log(err));
     }
-    function updatePost(postId){
+    function updatePost(postId) {
         console.log(postId);
         const title = document.getElementById('edit-title').value;
-        const content = document.getElementById('edit-content').value;
+        //const content = document.getElementById('edit-content').value;
+        const content = quill.root.innerHTML;
         const authorId = 1; //TODO 유저 만들어지기 전까진 하드코딩
         const post = new Post({ title, content, authorId });
-    
+
         console.log(post.toJSON());
-    
-        axios.put(`/api/posts/${postId}`,post.toJSON())
-        .then((response)=>{
-            const postId = response.data.postId;
-            console.log(response.data);
-            window.location.href = `/posts/${postId}`;
-        })
-        .catch((err)=>console.log(err));    
+
+        axios.put(`/api/posts/${postId}`, post.toJSON())
+            .then((response) => {
+                const postId = response.data.postId;
+                console.log(response.data);
+                window.location.href = `/posts/${postId}`;
+            })
+            .catch((err) => console.log(err));
     }
     const postId = getPostIdFromURL();
-    if(postId == 0){ writePost() }
+    if (postId == 0) { writePost() }
     else { updatePost(postId) }
 }
-function readPost(){
+function readPost() {
     const postId = getPostIdFromURL();
     const readTitle = document.getElementById('read-title');
     const readContent = document.getElementById('read-content');
 
     axios.get(`/api/posts/${postId}`)
-    .then( (response)=>{
-        console.log(response.data);
-        readTitle.innerText = response.data.title;
-        readContent.innerText = response.data.content;
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
+        .then((response) => {
+            console.log(response.data);
+            readTitle.innerText = response.data.title;
+            readContent.innerHTML = response.data.content;
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 }
-function editPost(){
+function editPost() {
     const postId = getPostIdFromURL();
     const readTitle = document.getElementById('read-title');
     const readContent = document.getElementById('read-content');
@@ -96,8 +100,8 @@ function editPost(){
     applyModeRendering(mode);
 }
 
-function cancelEdit(){
-    if(getPostIdFromURL()==0){
+function cancelEdit() {
+    if (getPostIdFromURL() == 0) {
         return;
     }
     const readTitle = document.getElementById('read-title');
@@ -113,19 +117,41 @@ function cancelEdit(){
     applyModeRendering(mode);
 }
 
-function deletePost(){
+function deletePost() {
     let postId = getPostIdFromURL();
     axios.delete(`/api/posts/${postId}`)
-    .then((response)=>{
-        console.log(response.data);
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
+
+function handleQuil(editorSelector, toolbarSelector) {
+    console.log('init quil');
+    const toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+        ['image'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+        [{ 'color': [] }],          // dropdown with defaults from theme
+        [{ 'align': [] }]                                         // remove formatting button
+    ];
+
+    quill = new Quill(editorSelector, {
+        theme: 'snow',
+        modules: {
+            toolbar: toolbarOptions
+        }
+    });
 }
 
 //초기화 함수
 function init() {
+    handleQuil('#edit-content', '#edit-toolbar')
     let postId = getPostIdFromURL();
     if (postId === '0') {
         mode = MODE.WRITE;
