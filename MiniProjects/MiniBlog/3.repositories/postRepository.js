@@ -85,3 +85,29 @@ export function deletePost({ postId, userId }) {
     });
   });
 }
+
+export function selectPagedPosts(offset, page) {
+  const query = `
+    SELECT 
+      p.*, 
+      (SELECT COUNT(*) FROM posts) AS totalCount
+    FROM posts p
+    ORDER BY p.created_at DESC
+    LIMIT ? OFFSET ?
+  `;
+
+  return new Promise((resolve, reject) => {
+    db.all(query, [page, offset], (err, rows) => {
+      if (err) return reject(err);
+
+      // totalCount는 각 row에 다 붙어있으므로, 첫 번째 것만 꺼내면 됨
+      const totalCount = rows.length > 0 ? rows[0].totalCount : 0;
+      const posts = rows.map(({ totalCount, ...rest }) => rest);
+
+      resolve({
+        posts,
+        totalCount
+      });
+    });
+  });
+}

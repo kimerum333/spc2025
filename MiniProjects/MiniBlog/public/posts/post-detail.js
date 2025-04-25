@@ -40,7 +40,8 @@ function writeOrEditPost() {
         axios.post('/api/posts',post.toJSON())
         .then((response)=>{
             const postId = response.data.postId;
-            window.location.href = `/posts/${postId}`;
+            //window.location.href = `/posts/${postId}`;
+            window.location.href=`/posts`;
         })
         .catch((err)=>console.log(err));    
     }

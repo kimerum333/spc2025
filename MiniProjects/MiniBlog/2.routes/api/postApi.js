@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { insertPost, selectSinglePost, updatePost, deletePost } from '../../3.repositories/postRepository.js';
+import { insertPost, selectSinglePost, updatePost, deletePost, selectPagedPosts } from '../../3.repositories/postRepository.js';
 
 const router = Router();
 
@@ -19,6 +19,21 @@ router.post('/', (req, res) => {
             res.status(500).end();
         });
 });
+
+
+router.get('/lists', (req, res) => {
+    console.log('route, lists', req.query.offset, req.query.limit);
+    let offset = req.query.offset;
+    let limit = req.query.limit;
+    selectPagedPosts(offset, limit)
+        .then(({ posts, totalCount }) => {
+            res.json({ posts, totalCount });
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+});
+
 
 router.get('/:id', (req, res) => {
     console.log(req.params.id);
@@ -62,17 +77,20 @@ router.delete('/:id', (req, res) => {
     const postId = req.params.id;
     const userId = 1;
     deletePost({ postId, userId })
-        .then((rows)=>{
-            if(rows==0){
+        .then((rows) => {
+            if (rows == 0) {
                 res.status(400).end();
-            }else{
+            } else {
                 res.status(200).end();
             }
         })
-        .catch((err)=>{
+        .catch((err) => {
             console.log(err);
             res.status(500).end();
         })
 });
+
+
+
 
 export default router;
