@@ -15,15 +15,15 @@
     <!-- 뷰 모드 -->
     <section data-mode="read">
       <div>
-        <h1 id="post-title" class="text-3xl font-bold mb-2">제목입니다.</h1>
-        <div id="post-content" class="text-lg leading-relaxed">
+        <h1 id="read-title" class="text-3xl font-bold mb-2">제목입니다.</h1>
+        <div id="read-content" class="text-lg leading-relaxed">
           내용입니다.
         </div>
       </div>
 
       <div class="mt-6 flex gap-4">
-        <button data-auth="my" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">수정</button>
-        <button data-auth="my" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">삭제</button>
+        <button id="read-edit-button" data-auth="my" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">수정</button>
+        <button id="read-delete-button" data-auth="my" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">삭제</button>
       </div>
     </section>
 
@@ -37,7 +37,7 @@
 
       <div class="mt-6 flex gap-4">
         <button id="edit-post-button" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">등록</button>
-        <button id="edit-cancel-button" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">취소</button>
+        <button id="edit-cancel-button" data-mode="edit" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">취소</button>
       </div>
     </section>
 
