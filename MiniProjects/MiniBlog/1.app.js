@@ -13,6 +13,9 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static('public'));
 
+//TODO 이후 CSP명세 필요.
+
+
 
 ///라우터
 //홈

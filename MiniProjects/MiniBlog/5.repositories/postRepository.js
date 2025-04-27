@@ -87,7 +87,7 @@ export function deletePost({ postId, userId }) {
   });
 }
 
-export function selectPagedPosts(offset, page) {
+export function selectPagedPosts({offset, page}) {
   const query = `
     SELECT 
       p.*, 
