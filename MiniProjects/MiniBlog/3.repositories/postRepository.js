@@ -50,7 +50,8 @@ export function updatePost({ id, title, content, authorId }) {
     UPDATE posts
     SET
       title = ?,
-      content = ?
+      content = ?,
+      updated_at = CURRENT_TIMESTAMP
     WHERE
       id = ?
     AND

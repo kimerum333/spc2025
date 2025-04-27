@@ -29,8 +29,8 @@ function applyModeRendering(currentMode = mode) {
 
 
 //통신 함수
-function writeOrEditPost() {
-    function writePost() {
+function createOrUpdatePost() {
+    function createPost() {
         const title = document.getElementById('edit-title').value;
         //const content = document.getElementById('edit-content').value;
         const content = quill.root.innerHTML;
@@ -67,10 +67,10 @@ function writeOrEditPost() {
             .catch((err) => console.log(err));
     }
     const postId = getPostIdFromURL();
-    if (postId == 0) { writePost() }
+    if (postId == 0) { createPost() }
     else { updatePost(postId) }
 }
-function readPost() {
+function getPost() {
     const postId = getPostIdFromURL();
     const readTitle = document.getElementById('read-title');
     const readContent = document.getElementById('read-content');
@@ -91,10 +91,12 @@ function editPost() {
     const readContent = document.getElementById('read-content');
 
     const editTitle = document.getElementById('edit-title');
-    const editContent = document.getElementById('edit-content');
+    // const editContent = document.getElementById('edit-content');
+    const editContent = quill;
 
     editTitle.value = readTitle.innerText;
-    editContent.value = readContent.innerText;
+    editContent.clipboard.dangerouslyPasteHTML(0, readContent.innerHTML);
+
 
     mode = MODE.EDIT;
     applyModeRendering(mode);
@@ -159,10 +161,10 @@ function init() {
     } else {
         mode = MODE.READ;
         applyModeRendering(mode);
-        readPost(postId);
+        getPost(postId);
     }
 
-    const postButton = document.getElementById('edit-post-button').addEventListener('click', writeOrEditPost);
+    const postButton = document.getElementById('edit-post-button').addEventListener('click', createOrUpdatePost);
     const editButton = document.getElementById('read-edit-button').addEventListener('click', editPost);
     const cancelButton = document.getElementById('edit-cancel-button').addEventListener('click', cancelEdit);
     const deleteButton = document.getElementById('read-delete-button').addEventListener('click', deletePost);
