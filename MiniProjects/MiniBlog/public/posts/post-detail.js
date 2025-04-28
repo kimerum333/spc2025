@@ -32,18 +32,17 @@ function applyModeRendering(currentMode = mode) {
 function createOrUpdatePost() {
     function createPost() {
         const title = document.getElementById('edit-title').value;
-        //const content = document.getElementById('edit-content').value;
         const content = quill.root.innerHTML;
-        
-        const authorId = 1; //TODO 유저 만들어지기 전까진 하드코딩
-        const post = new Post({ title, content, authorId });
+        const thumbnailUrl = document.getElementById('uploaded-temp-image-url').value;
 
-        console.log(post.toJSON());
+        const authorId = 1; //TODO 유저 만들어지기 전까진 하드코딩
+        const post = new Post({ title, content, thumbnailUrl, authorId });
+
+        //console.log(post.toJSON());
 
         axios.post('/api/posts', post.toJSON())
             .then((response) => {
                 const postId = response.data.postId;
-                //window.location.href = `/posts/${postId}`;
                 window.location.href = `/posts`;
             })
             .catch((err) => console.log(err));
@@ -53,8 +52,12 @@ function createOrUpdatePost() {
         const title = document.getElementById('edit-title').value;
         //const content = document.getElementById('edit-content').value;
         const content = quill.root.innerHTML;
+
+        //썸네일 판별
+        const thumbnailUrl = document.getElementById('uploaded-temp-image-url').value;
+
         const authorId = 1; //TODO 유저 만들어지기 전까진 하드코딩
-        const post = new Post({ title, content, authorId });
+        const post = new Post({ title, content, thumbnailUrl, authorId });
 
         console.log(post.toJSON());
 
@@ -70,22 +73,27 @@ function createOrUpdatePost() {
     if (postId == 0) { createPost() }
     else { updatePost(postId) }
 }
+
 function getPost() {
     const postId = getPostIdFromURL();
     const readTitle = document.getElementById('read-title');
     const readContent = document.getElementById('read-content');
+    const thumbnailPreview = document.getElementById('thumbnail-preview');
 
     axios.get(`/api/posts/${postId}`)
         .then((response) => {
             console.log(response.data);
             readTitle.innerText = response.data.title;
             readContent.innerHTML = response.data.content;
+            thumbnailPreview.src = response.data.thumbnailUrl;
         })
         .catch((err) => {
             console.log(err);
         })
 }
+
 function editPost() {
+    //TODO changedThumbnailURL 요청 필요.
     const postId = getPostIdFromURL();
     const readTitle = document.getElementById('read-title');
     const readContent = document.getElementById('read-content');
@@ -96,7 +104,6 @@ function editPost() {
 
     editTitle.value = readTitle.innerText;
     editContent.clipboard.dangerouslyPasteHTML(0, readContent.innerHTML);
-
 
     mode = MODE.EDIT;
     applyModeRendering(mode);
@@ -130,7 +137,7 @@ function deletePost() {
         })
 }
 
-function handleQuil(editorSelector, toolbarSelector) {
+function handleQuil(editorSelector) {
     console.log('init quil');
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -151,9 +158,38 @@ function handleQuil(editorSelector, toolbarSelector) {
     });
 }
 
+function uploadThumbnail(event) {
+    const file = event.target.files[0];
+    if (!file) {
+        alert('파일을 선택해주세요.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('thumbnail', file);
+
+    axios.post('/files/upload-thumbnail', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+        .then((response) => {
+            let uploadedUrl = response.data.url;
+
+            const hiddenInput = document.getElementById('uploaded-temp-image-url');
+            hiddenInput.value = uploadedUrl;
+
+            const thumbnailPreview = document.getElementById('thumbnail-preview');
+            thumbnailPreview.src = uploadedUrl;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
 //초기화 함수
 function init() {
-    handleQuil('#edit-content', '#edit-toolbar')
+    handleQuil('#edit-content')
     let postId = getPostIdFromURL();
     if (postId === '0') {
         mode = MODE.WRITE;
@@ -168,6 +204,7 @@ function init() {
     const editButton = document.getElementById('read-edit-button').addEventListener('click', editPost);
     const cancelButton = document.getElementById('edit-cancel-button').addEventListener('click', cancelEdit);
     const deleteButton = document.getElementById('read-delete-button').addEventListener('click', deletePost);
+    const uploadThumbnailInput = document.getElementById('upload-thumbnail-image').addEventListener('change', uploadThumbnail);
 }
 
 

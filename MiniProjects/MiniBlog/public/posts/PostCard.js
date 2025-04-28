@@ -4,6 +4,7 @@ export class PostCard {
     constructor(post) {
         this.id = post.id;
         this.title = post.title;
+        this.thumbnailUrl = post.thumbnailUrl;
         this.snippet = post.content.slice(0, 10) + '...';
         this.dateStr = new Date(post.createdAt).toLocaleDateString();
     }
@@ -13,11 +14,9 @@ export class PostCard {
         div.className = 'bg-white rounded shadow p-4 hover:shadow-lg transition';
 
         const img = document.createElement('img');
-        img.src = 'https://fakeimg.pl/300x180'; // 썸네일 경로가 필요하면 post.thumbnail 등으로 교체 가능
-        img.width = 300;
-        img.height = 180;
+        img.className = 'rounded mb-2 w-[300px] h-[180px] object-fill';
+        img.src = this.thumbnailUrl; // 썸네일 경로가 필요하면 post.thumbnail 등으로 교체 가능
         img.alt = 'thumbnail';
-        img.className = 'rounded mb-2';
 
         const title = document.createElement('h2');
         title.className = 'text-lg font-semibold';

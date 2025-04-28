@@ -44,12 +44,13 @@ export function getSinglePost(req, res) {
 export function editPost(req, res) {
   //console.log(req.params.id);
   const id = req.params.id;
-  const title = req.body.title;
-  const content = req.body.content;
-  const authorId = 1;
+  // const title = req.body.title;
+  // const content = req.body.content;
+  // const authorId = 1;
+  const { title, content, thumbnailUrl, authorId } = req.body;
 
   //console.log('calling updatePost with:', { id, title, content, authorId });
-  updatePostService({ id, title, content, authorId })
+  updatePostService({ id, title, content, thumbnailUrl, authorId })
     .then((rows) => {
       if (rows == 1) {
         res.status(200).json({ "postId": req.params.id });

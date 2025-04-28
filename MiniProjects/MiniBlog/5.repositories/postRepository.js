@@ -8,19 +8,20 @@ const db = new sqlite3.Database('blog.db', (err) => {
   }
 });
 
-export function insertPost({ title, content, authorId }) {
+export function insertPost({ title, content, thumbnailUrl, authorId }) {
 
-  console.log('at db', title, content, authorId);
+  console.log('at db', title, content, thumbnailUrl, authorId);
+
   const query = `
       INSERT INTO
         posts
-        (title, content, author_id)
+        (title, content, thumbnail_url, author_id)
       VALUES
-        (?, ?, ?)
+        (?, ?, ?, ?)
     `;
 
   return new Promise((resolve, reject) => {
-    db.run(query, [title, content, authorId], function (err) {
+    db.run(query, [title, content, thumbnailUrl, authorId], function (err) {
       if (err) {
         reject(err);
       } else {
@@ -34,7 +35,9 @@ export function selectSinglePost(postId) {
   console.log('at db', postId);
   const query = `
     SELECT
-      title, content
+      title,
+      content,
+      thumbnail_url as thumbnailUrl
     FROM
       posts
     WHERE
@@ -51,8 +54,8 @@ export function selectSinglePost(postId) {
   });
 }
 
-export function updatePost({ id, title, content, authorId }) {
-  console.log('at db', id, title, content, authorId);
+export function updatePost({ id, title, content,authorId }) {
+  console.log('at db', id, title, content, thumbnailUrl, authorId);
   const query = `
     UPDATE posts
     SET
@@ -66,6 +69,31 @@ export function updatePost({ id, title, content, authorId }) {
   `;
   return new Promise((resolve, reject) => {
     db.run(query, [title, content, id, authorId], function (err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(this.changes); // 성공적으로 바뀐 행 수
+      }
+    });
+  });
+}
+
+export function updatePostWithNewThumbnail({ id, title, content, thumbnailUrl, authorId }) {
+  console.log('at db', id, title, content, thumbnailUrl, authorId);
+  const query = `
+    UPDATE posts
+    SET
+      title = ?,
+      content = ?,
+      thumbnail_url = ?,
+      updated_at = CURRENT_TIMESTAMP
+    WHERE
+      id = ?
+    AND
+      author_id = ?
+  `;
+  return new Promise((resolve, reject) => {
+    db.run(query, [title, content, thumbnailUrl, id, authorId], function (err) {
       if (err) {
         reject(err);
       } else {
@@ -95,10 +123,12 @@ export function deletePost({ postId, userId }) {
 }
 
 export function selectPagedPosts({ offset, limit }) {
-  console.log('db 에서',offset,limit);
   const query = `
     SELECT 
-      p.*, 
+      p.id,
+      p.title,
+      p.content,
+      p.thumbnail_url as thumbnailUrl,
       (SELECT COUNT(*) FROM posts) AS totalCount
     FROM posts p
     ORDER BY p.created_at DESC
