@@ -31,3 +31,7 @@ export async function deletePermanentFile(url) {
     // 보통 실패해도 치명적이지 않게 처리 (ex: 파일이 없었을 수도 있음)
   }
 }
+
+export function parseHtmlAndSaveImagesLazy(){
+  
+}
