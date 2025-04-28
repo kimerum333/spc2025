@@ -2,11 +2,10 @@
 import { getPostListService, writePostService, getSinglePostService, updatePostService, removePostService } from '../4.services/postService.js';
 
 export function writePost(req, res) {
-  const title = req.body.title;
-  const content = req.body.content;
+  const { title, content, thumbnailUrl } = req.body;
   const authorId = 1;
 
-  writePostService({ title, content, authorId })
+  writePostService({ title, content, thumbnailUrl, authorId })
     .then((postId) => {
       res.status(201).json({ postId });
     })
@@ -18,9 +17,8 @@ export function writePost(req, res) {
 
 export function getPostList(req, res) {
   //console.log('route, lists', req.query.offset, req.query.limit);
-  let offset = req.query.offset;
-  let limit = req.query.limit;
-  getPostListService(offset, limit)
+  const { offset, limit } = req.query
+  getPostListService({ offset, limit })
     .then(({ posts, totalCount }) => {
       res.json({ posts, totalCount });
     })

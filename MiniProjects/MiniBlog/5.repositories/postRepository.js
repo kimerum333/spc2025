@@ -1,5 +1,12 @@
 import sqlite3 from 'sqlite3';
-const db = new sqlite3.Database('blog.db');
+const db = new sqlite3.Database('blog.db', (err) => {
+  if (err) {
+    console.error('db 연결 실패');
+  } else {
+    console.log('db 연결 성공');
+    db.run('PRAGMA foreign_keys = ON');
+  }
+});
 
 export function insertPost({ title, content, authorId }) {
 
@@ -87,7 +94,8 @@ export function deletePost({ postId, userId }) {
   });
 }
 
-export function selectPagedPosts({offset, page}) {
+export function selectPagedPosts({ offset, limit }) {
+  console.log('db 에서',offset,limit);
   const query = `
     SELECT 
       p.*, 
@@ -98,7 +106,7 @@ export function selectPagedPosts({offset, page}) {
   `;
 
   return new Promise((resolve, reject) => {
-    db.all(query, [page, offset], (err, rows) => {
+    db.all(query, [limit, offset], (err, rows) => {
       if (err) return reject(err);
 
       // totalCount는 각 row에 다 붙어있으므로, 첫 번째 것만 꺼내면 됨
