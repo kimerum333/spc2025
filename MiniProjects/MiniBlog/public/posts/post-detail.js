@@ -137,8 +137,8 @@ function deletePost() {
         })
 }
 
-function handleQuil(editorSelector) {
-    console.log('init quil');
+function handleQuill(editorSelector) {
+    console.log('init quill');
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
         ['blockquote', 'code-block'],
@@ -153,10 +153,42 @@ function handleQuil(editorSelector) {
     quill = new Quill(editorSelector, {
         theme: 'snow',
         modules: {
-            toolbar: toolbarOptions
+            toolbar: toolbarOptions,
+            handlers: {
+                image: quillImageHandler
+            }
         }
     });
 }
+
+function quillImageHandler(){
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+
+    input.onchange = async () => {
+        const file = input.files[0];
+        if (!file) {
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const res = await axios.post('/upload-image', formData);
+            const imageUrl = res.data.url;
+
+            const range = quill.getSelection();
+            quill.insertEmbed(range.index, 'image', imageUrl);
+        } catch (err) {
+            console.error('이미지 업로드 실패', err);
+        }
+    };
+}
+
+
 
 function uploadThumbnail(event) {
     const file = event.target.files[0];
@@ -189,7 +221,7 @@ function uploadThumbnail(event) {
 
 //초기화 함수
 function init() {
-    handleQuil('#edit-content')
+    handleQuill('#edit-content')
     let postId = getPostIdFromURL();
     if (postId === '0') {
         mode = MODE.WRITE;
