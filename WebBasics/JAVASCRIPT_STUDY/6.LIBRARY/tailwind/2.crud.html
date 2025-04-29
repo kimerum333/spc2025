@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="
+        https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.all.min.js
+    "></script>
+    <link href="
+        https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.min.css
+        " rel="stylesheet">
+    <style>
+        .fade-in{
+            animation: fadeIn 2.0s forwards;
+        }
+        @keyframes fadeIn {
+            from{
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to{
+                opacity: 1;
+                transform: translate(0);
+            }
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<!-- 배경을 밝은 회색으로 한다. -->
+
+<body class="bg-gray-100">
+    <nav class="bg-white shadow p-4 flex justify-between">
+        <div class="text-2x1 font-bold text-blue-400">myApp</div>
+        <!-- 항목간 가로간격 -->
+        <div class="flex space-x-4">
+            <a href="#" class="text-gray-700 hover:text-blue-500">Home</a>
+            <a href="#" class="text-gray-700 hover:text-blue-500">About</a>
+            <a href="#" class="text-gray-700 hover:text-blue-500">Contact</a>
+        </div>
+    </nav>
+    <!-- 최대폭 64rem(1024px),수평 가운데 정렬, 패딩6 -->
+    <div class="max-w-5x1 mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6 text-gray-800">사용자 목록</h1>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-4"
+            onclick="addUser()">사용자 추가</button>
+
+        <!-- 가로스크롤을 허용하는 테이블. x가 넘치면 오버플로우하니까. -->
+        <div class="bg-white rounded shadow overflow-x-auto">
+            <!-- 최소 상위요소의 가로 전체를 차지해라. 즉, 오른쪽으로 쭉 펴겠다. -->
+            <table class="min-w-full text-center">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th class="py-3 px-4">ID</th>
+                        <th class="py-3 px-4">이름</th>
+                        <th class="py-3 px-4">이메일</th>
+                        <th class="py-3 px-4">액션</th>
+                    </tr>
+                </thead>
+                <!-- 하단에 얇은 테두리가 들어간다. -->
+                <tbody id="user-table-body">
+                    <tr class="border-b">
+                        <td class="py-3 px-4">1</td>
+                        <td class="py-3 px-4">홍길동</td>
+                        <td class="py-3 px-4">hong@example.com</td>
+                        <td class="py-3 px-4">
+                            <button class="bg-red-500 hover:bg-red-600 text-white font semibold py-1 px-3 rounded"
+                                onclick="deleteUser(1)">삭제</button>
+                        </td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="py-3 px-4">2</td>
+                        <td class="py-3 px-4">김철수</td>
+                        <td class="py-3 px-4">kim@example.com</td>
+                        <td class="py-3 px-4">
+                            <button class="bg-red-500 hover:bg-red-600 text-white font semibold py-1 px-3 rounded"
+                                onclick="deleteUser(2)">삭제</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        let users = [
+            { id: 1, name: '홍길동', email: 'hong@example.com' },
+            { id: 2, name: '청길동', email: 'chung@example.com' }
+        ]
+        let nextId = 3;
+
+        function renderTable() {
+            const tbody = document.getElementById('user-table-body');
+            tbody.innerHTML = '';
+
+            users.forEach((user) => {
+                const tr = document.createElement('tr');
+                tr.classList.add('border-b');
+                tr.id = `user-row-${user.id}`;
+                tr.innerHTML = `
+                    <td class="py-3 px-4">${user.id}</td>
+                        <td class="py-3 px-4">${user.name}</td>
+                        <td class="py-3 px-4">${user.email}</td>
+                        <td class="py-3 px-4">
+                            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font semibold py-1 px-3 rounded" onclick="editUser(${user.id})">수정</button>
+                            <button class="bg-red-500 hover:bg-red-600 text-white font semibold py-1 px-3 rounded" onclick="deleteUser(${user.id})">삭제</button>
+                        </td>    
+                `;
+                tbody.appendChild(tr);
+            })
+
+        }
+        async function addUser() {
+            const { value: formValues } = await Swal.fire({
+                title: "새 사용자 추가",
+                html: `
+                    <input id="swal-input-name" class="swal2-input" placeholder="이름">
+                    <input id="swal-input-email" class="swal2-input" placeholder="이메일">
+                `,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: '로그인',
+                cancelButtonText: '취소',
+                preConfirm: () => {
+                    const name = document.getElementById('swal-input-name').value;
+                    const email = document.getElementById('swal-input-email').value;
+                    if (!email || !name) {
+                        Swal.showValidationMessage('모든 필드를 입력하세요!');
+                        return false;
+                    }
+                    return { name, email };
+                }
+
+            });
+            if (formValues) {
+                const newUser = { id: nextId++, name: formValues.name, email: formValues.email };
+                users.push(newUser);
+                await Swal.fire('추가 완료!', `이름 : ${formValues.name}, 이메일 : ${formValues.email}`);
+
+                renderTable();
+                //fadeIn을 새 row에만 적용
+                const newRow = document.getElementById(`user-row-${newUser.id}`);
+                newRow.classList.add('fade-in');
+            }
+        }
+        function deleteUser(id) {
+            Swal.fire({
+                title: "정말 삭제하시겠습니까",
+                showCancelButton: true,
+                confirmButtonText: "삭제",
+                cancelButtonText: "취소"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    users = users.filter((user) => user.id !== id);
+                    renderTable();
+                    Swal.fire('삭제 완료!!', `ID: ${id} 사용자가 삭제되었습니다.`)
+                }
+            })
+        }
+        async function editUser(id) {
+            const user = users.find((user) => user.id === id);
+
+            const { value: formValues } = await Swal.fire({
+                title: "사용자 변경",
+                html: `
+                    <input id="swal-input-name" class="swal2-input" placeholder="이름" value=${user.name}>
+                    <input id="swal-input-email" class="swal2-input" placeholder="이메일" value=${user.email}>
+                `,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: '로그인',
+                cancelButtonText: '취소',
+                preConfirm: () => {
+                    const name = document.getElementById('swal-input-name').value;
+                    const email = document.getElementById('swal-input-email').value;
+                    if (!email || !name) {
+                        Swal.showValidationMessage('모든 필드를 입력하세요!');
+                        return false;
+                    }
+                    return { name, email };
+                }
+
+            });
+            if (formValues) {
+                user.name = formValues.name;
+                user.email = formValues.email;
+                renderTable();
+                Swal.fire('수정 완료!', `이름 : ${formValues.name}, 이메일 : ${formValues.email}`);
+            }
+        }
+
+
+        renderTable();
+
+    </script>
+</body>
+
+</html>
