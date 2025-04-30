@@ -1,0 +1,36 @@
+<!-- ws-client.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>WebSocket Test</title>
+</head>
+<body>
+  <h1>WebSocket 테스트</h1>
+  <pre id="log"></pre>
+
+  <script>
+    const log = document.getElementById('log');
+    const socket = new WebSocket('ws://localhost:3000');
+
+    socket.onopen = () => {
+      log.textContent += '✅ 연결됨\n';
+      // 서버에 메시지 보내기
+      socket.send('클라이언트에서 접속했어요!');
+    };
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      log.textContent += `[${data.time}] value: ${data.value}\n`;
+    };
+
+    socket.onerror = (err) => {
+      log.textContent += '🔴 오류 발생\n';
+    };
+
+    socket.onclose = () => {
+      log.textContent += '❌ 연결 종료\n';
+    };
+  </script>
+</body>
+</html>

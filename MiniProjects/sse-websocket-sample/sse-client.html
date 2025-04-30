@@ -1,0 +1,27 @@
+<!-- sse-client.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>SSE Test</title>
+</head>
+<body>
+  <h1>SSE 테스트</h1>
+  <pre id="log"></pre>
+
+  <script>
+    const log = document.getElementById('log');
+    const eventSource = new EventSource('http://localhost:3000/sse');
+
+    eventSource.onmessage = function(event) {
+      const data = JSON.parse(event.data);
+      log.textContent += `\n[${data.time}] value: ${data.value}`;
+    };
+
+    eventSource.onerror = function(err) {
+      log.textContent += `\n🔴 연결 오류 발생`;
+      eventSource.close();
+    };
+  </script>
+</body>
+</html>
