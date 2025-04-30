@@ -11,7 +11,7 @@ export function extractImageSrcs(html) {
 }
 
 export function extractTempImageSrcs(html) {
-  return extractImageSrcs(html).filter(src => src.startsWith('/temp/'));
+  return extractImageSrcs(html).filter(src => src.startsWith('/temp_uploads/'));
 }
 
 export function replaceImageSrc(html, oldSrc, newSrc) {
@@ -21,7 +21,7 @@ export function replaceImageSrc(html, oldSrc, newSrc) {
 }
 
 export function bulkReplaceTempImages(html, mapping) {
-  // mapping: { '/temp/xxx.jpg': '/uploads/yyy.jpg', ... }
+  // mapping: { '/temp_uploads/xxx.jpg': '/uploads/yyy.jpg', ... }
   const $ = cheerio.load(html);
   $('img').each((_, img) => {
     const src = $(img).attr('src');
