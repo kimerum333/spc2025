@@ -1,12 +1,6 @@
-import sqlite3 from 'sqlite3';
-const db = new sqlite3.Database('blog.db', (err) => {
-  if (err) {
-    console.error('db 연결 실패');
-  } else {
-    console.log('db 연결 성공');
-    db.run('PRAGMA foreign_keys = ON');
-  }
-});
+import db from './db.js';
+
+
 
 export function insertPost({ title, content, thumbnailUrl, authorId }) {
 
@@ -54,31 +48,8 @@ export function selectSinglePost(postId) {
   });
 }
 
-export function updatePost({ id, title, content,authorId }) {
-  console.log('at db', id, title, content, thumbnailUrl, authorId);
-  const query = `
-    UPDATE posts
-    SET
-      title = ?,
-      content = ?,
-      updated_at = CURRENT_TIMESTAMP
-    WHERE
-      id = ?
-    AND
-      author_id = ?
-  `;
-  return new Promise((resolve, reject) => {
-    db.run(query, [title, content, id, authorId], function (err) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(this.changes); // 성공적으로 바뀐 행 수
-      }
-    });
-  });
-}
 
-export function updatePostWithNewThumbnail({ id, title, content, thumbnailUrl, authorId }) {
+export function updatePost({ id, title, content, thumbnailUrl, authorId }) {
   console.log('at db', id, title, content, thumbnailUrl, authorId);
   const query = `
     UPDATE posts
@@ -95,6 +66,7 @@ export function updatePostWithNewThumbnail({ id, title, content, thumbnailUrl, a
   return new Promise((resolve, reject) => {
     db.run(query, [title, content, thumbnailUrl, id, authorId], function (err) {
       if (err) {
+        console.log(err);
         reject(err);
       } else {
         resolve(this.changes); // 성공적으로 바뀐 행 수

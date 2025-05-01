@@ -19,7 +19,7 @@ export function moveTempToPermanentLazy(tempUrl) {
 }
 
 
-export async function deletePermanentFile(url) {
+async function deletePermanentFile(url) {
   const filename = path.basename(url);
   const filePath = path.join(UPLOAD_DIR, filename);
 
@@ -32,6 +32,8 @@ export async function deletePermanentFile(url) {
   }
 }
 
-export function parseHtmlAndSaveImagesLazy(){
-  
+export function deletePostImagesFromFile(urlArray) {
+  urlArray.forEach((url) => {
+    deletePermanentFile(url);
+  });
 }

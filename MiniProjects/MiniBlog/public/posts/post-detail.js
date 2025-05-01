@@ -33,7 +33,7 @@ function createOrUpdatePost() {
     function createPost() {
         const title = document.getElementById('edit-title').value;
         const content = quill.root.innerHTML;
-        const thumbnailUrl = document.getElementById('uploaded-temp-image-url').value;
+        const thumbnailUrl = document.getElementById('hidden-thumbnail-url').value;
 
         const authorId = 1; //TODO 유저 만들어지기 전까진 하드코딩
         const post = new Post({ title, content, thumbnailUrl, authorId });
@@ -53,8 +53,7 @@ function createOrUpdatePost() {
         //const content = document.getElementById('edit-content').value;
         const content = quill.root.innerHTML;
 
-        //썸네일 판별
-        const thumbnailUrl = document.getElementById('uploaded-temp-image-url').value;
+        const thumbnailUrl = document.getElementById('hidden-thumbnail-url').value;
 
         const authorId = 1; //TODO 유저 만들어지기 전까진 하드코딩
         const post = new Post({ title, content, thumbnailUrl, authorId });
@@ -79,6 +78,7 @@ function getPost() {
     const readTitle = document.getElementById('read-title');
     const readContent = document.getElementById('read-content');
     const thumbnailPreview = document.getElementById('thumbnail-preview');
+    const hiddenInput = document.getElementById('hidden-thumbnail-url');
 
     axios.get(`/api/posts/${postId}`)
         .then((response) => {
@@ -86,6 +86,7 @@ function getPost() {
             readTitle.innerText = response.data.title;
             readContent.innerHTML = response.data.content;
             thumbnailPreview.src = response.data.thumbnailUrl;
+            hiddenInput.value = response.data.thumbnailUrl;
         })
         .catch((err) => {
             console.log(err);
@@ -212,7 +213,7 @@ function uploadThumbnail(event) {
         .then((response) => {
             let uploadedUrl = response.data.url;
 
-            const hiddenInput = document.getElementById('uploaded-temp-image-url');
+            const hiddenInput = document.getElementById('hidden-thumbnail-url');
             hiddenInput.value = uploadedUrl;
 
             const thumbnailPreview = document.getElementById('thumbnail-preview');
