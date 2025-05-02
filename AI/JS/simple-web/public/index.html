@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간단한 API 요청</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #output {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            min-height: 100px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>API 요청</h1>
+    <div class="container">
+        <input type="text" id="apiInput" placeholder="API 요청 내용을 입력하세요">
+        <button id="sendButton">전송</button>
+        <div id="output">결과가 여기에 표시됩니다.</div>
+    </div>
+
+    <script>
+        document.getElementById('sendButton').addEventListener('click', sendRequest);
+
+        async function sendRequest() {
+            const inputValue = document.getElementById('apiInput').value;
+            const outputDiv = document.getElementById('output');
+
+            if (!inputValue) {
+                outputDiv.textContent = '입력 내용을 작성해주세요.';
+                return;
+            }
+
+            outputDiv.textContent = '요청 처리 중...';
+
+            try {
+                //기본 요청
+                /*
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: inputValue })
+                });
+
+                const data = await response.json();
+                outputDiv.textContent = JSON.stringify(data, null, 2);
+                */
+               
+                //순수 패치 방식 스트리밍
+                /*
+                const response = await fetch('/api/chatstream', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: inputValue })
+                });
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+
+                let result = "";
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+
+                    // 여러 줄로 나뉠 수 있으니 줄 단위로 쪼갬
+                    const lines = chunk.split('\n');
+                    for (let line of lines) {
+                        line = line.trim();
+                        if (line === '' || line === 'data: [DONE]') continue;
+                        if (line.startsWith('data: ')) {
+                            const content = line.slice(6); // 'data: ' 제거
+                            result += content;
+                            outputDiv.textContent = result;
+                        }
+                    }
+                }
+                    */
+
+                    //이벤트소스 기반 sse
+                    const eventSource = new EventSource(`/api/chat-eventsource?message=${encodeURIComponent(inputValue)}`);
+                    eventSource.onmessage = (event)=>{
+                        if(event.data === "[DONE]"){
+                            eventSource.close();
+                        }else{
+                            console.log("AI 응답 : ",event.data);
+                            outputDiv.textContent += event.data;
+                        }
+                    }
+            } catch (error) {
+                outputDiv.textContent = `오류가 발생했습니다: ${error.message}`;
+            }
+        }
+
+        // Enter 키로도 요청 가능하게 설정
+        document.getElementById('apiInput').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                sendRequest();
+            }
+        });
+    </script>
+</body>
+
+</html>
