@@ -2,7 +2,7 @@ const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
 
-const credentials = JSON.parse(fs.readFileSync('client_secret_124742568995-g5oq6honoc3r8mreqih25a02v4qm8805.apps.googleusercontent.com.json'));
+const credentials = JSON.parse(fs.readFileSync('secrets/client_secret_124742568995-g5oq6honoc3r8mreqih25a02v4qm8805.apps.googleusercontent.com.json'));
 const { client_id, client_secret, redirect_uris } = credentials.installed;
 
 console.log('아이디',client_id, '씨크릿',client_secret, '리다렉',redirect_uris);
@@ -34,7 +34,7 @@ function getAccessToken() {
     rl.close();
     oAuth2Client.getToken(code).then(({ tokens }) => {
       oAuth2Client.setCredentials(tokens);
-      fs.writeFileSync('token.json', JSON.stringify(tokens));
+      fs.writeFileSync('secrets/token.json', JSON.stringify(tokens));
       console.log('✅ 토큰이 token.json에 저장되었습니다.');
     }).catch(err => {
       console.error('❌ 토큰 가져오기 실패:', err);
