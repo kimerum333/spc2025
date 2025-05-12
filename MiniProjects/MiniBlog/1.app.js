@@ -1,5 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
+import path from 'path';
 
 import homeRoutes from './2.routes/homeRoutes.js';
 import postRoutes from './2.routes/postRoutes.js';
@@ -15,7 +16,7 @@ app.use(morgan('dev'));
 //파싱
 app.use(express.json());
 //정적 파일
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname,'public')));
 
 //TODO 이후 CSP명세, CORS 필요.
 

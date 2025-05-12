@@ -4,7 +4,7 @@ import { bulkReplaceTempImages, extractTempImageSrcs } from "../1.modules/imageS
 import { insertImages, getPostImages, deletePostImages as deletePostImagesFromDB } from "../5.repositories/postImageRepositories.js";
 
 //
-const PLACEHOLDER_THUMBNAIL_URL = '/uploads/images/300x180.png';
+const PLACEHOLDER_THUMBNAIL_URL = '/essentials/300x180.png';
 
 export function writePostService({ title, content, thumbnailUrl, authorId }) {
 
@@ -16,7 +16,7 @@ export function writePostService({ title, content, thumbnailUrl, authorId }) {
     let tempImages = extractTempImageSrcs(content);
     let parmaImages = tempImages.map(innerImage => moveTempToPermanentLazy(innerImage));
     let mapping = Object.fromEntries(
-        tempImages.map((src, idx) => [src, parmaImages[idx]])
+        tempImages.map((src, idx) => [src, parmaImages[idx]])   
     );
 
     let changedHTML = bulkReplaceTempImages(content, mapping);
