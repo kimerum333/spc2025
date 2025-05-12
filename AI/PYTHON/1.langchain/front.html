@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple AI Chat</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    #askInput {
+      width: 80%;
+    }
+    #submitBtn {
+      width: 18%;
+    }
+    #response {
+      margin-top: 20px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Ask AI</h2>
+  <input id="askInput" type="text" placeholder="Type your question..." />
+  <button id="submitBtn">Send</button>
+
+  <div id="response"></div>
+
+  <script>
+    const input = document.getElementById('askInput');
+    const button = document.getElementById('submitBtn');
+    const responseDiv = document.getElementById('response');
+
+    async function sendQuestion() {
+      const ask = input.value.trim();
+      console.log(ask);
+      if (!ask) return;
+
+      const res = await fetch('http://127.0.0.1:5000/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ask })
+      });
+
+      const data = await res.json();
+      responseDiv.textContent = data.reply || 'No response received.';
+    }
+
+    button.addEventListener('click', sendQuestion);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendQuestion();
+    });
+  </script>
+
+</body>
+</html>
