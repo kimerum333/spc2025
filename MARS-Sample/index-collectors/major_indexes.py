@@ -49,6 +49,14 @@ try:
     bps = round(equity / shares, 2)
 except:
     bps = "N/A"
+    
+# 배당수익률 계산
+try:
+    last_div = float(profile.get("lastDiv"))
+    price = float(profile.get("price"))
+    dividend_yield = round(last_div / price * 100, 2)
+except:
+    dividend_yield = "N/A"
 
 # ===== 결과 출력 =====
 print(f"\n✅ [{symbol}] 주요 지표 수집 결과")
@@ -58,3 +66,5 @@ print(f"시가총액 (Market Cap): {market_cap.get('marketCap', 'N/A')}")
 print(f"ROE: {ratios.get('returnOnEquityTTM', 'N/A')}")
 print(f"EPS (계산): {eps}")
 print(f"BPS (계산): {bps}")
+print(f"Beta: {profile.get('beta', 'N/A')}")
+print(f"배당수익률 (Dividend Yield): {dividend_yield}%")
