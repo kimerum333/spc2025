@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>RAG 데모</title>
+</head>
+<body>
+  <h1>RAG 데모 서비스</h1>
+
+  <!-- 🔹 1. 텍스트 또는 PDF 업로드 -->
+  <section>
+    <h2>문서 업로드</h2>
+    <form id="upload-form">
+      <input type="file" id="file-input" name="file" accept=".txt,.pdf" required>
+      <button type="submit">업로드</button>
+    </form>
+    <p id="upload-status"></p>
+  </section>
+
+  <!-- 🔹 2. 질문 입력 -->
+  <section>
+    <h2>질문하기</h2>
+    <form id="question-form">
+      <input type="text" id="question-input" placeholder="질문을 입력하세요" style="width: 300px;" required>
+      <button type="submit">질문하기</button>
+    </form>
+    <h3>답변</h3>
+    <p id="answer-output"></p>
+  </section>
+
+  <!-- 🔹 3. 자바스크립트 이벤트 핸들러 -->
+  <script>
+    // 문서 업로드 처리
+    document.getElementById("upload-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const fileInput = document.getElementById("file-input");
+      const formData = new FormData();
+      formData.append("file", fileInput.files[0]);
+
+      const res = await fetch("/upload", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.text();
+      document.getElementById("upload-status").innerText = data;
+    });
+
+    // 질문 처리
+    document.getElementById("question-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const question = document.getElementById("question-input").value;
+
+      const res = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question })
+      });
+
+      const data = await res.json();
+      document.getElementById("answer-output").innerText = data.answer;
+    });
+  </script>
+</body>
+</html>

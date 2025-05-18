@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #chatbot-area {
+            border: 1px solid #ccc;
+            padding: 16px;
+            margin-top: 8px;
+            width: 350px;
+            background: #fafbfc;
+        }
+
+        #chatbot-history {
+            height: 200px;
+            overflow-y: auto;
+            background: #f4f6fa;
+            margin-bottom: 12px;
+            padding: 8px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .bubble {
+            max-width: 75%;
+            padding: 8px 12px;
+            border-radius: 16px;
+            margin-bottom: 2px;
+            word-break: break-word;
+            font-size: 1rem;
+            display: inline-block;
+        }
+
+        .bubble.user {
+            background: #d1e7ff;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        .bubble.bot {
+            background: #e2e2e2;
+            align-self: flex-start;
+            text-align: left;
+        }
+
+        #chatbot-input-area {
+            display: flex;
+            gap: 4px;
+        }
+
+        #chatbot-input {
+            flex: 1;
+            padding: 6px 8px;
+            border-radius: 8px;
+            border: 1px solid #bbb;
+            font-size: 1rem;
+        }
+
+        #chatbot-send {
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: none;
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>투두리스트</h1>
+    <input type="text" id="newTodo" placeholder="할 말 적기">
+    <button id="add-todo">추가</button>
+    <ul id="todo-list">
+
+    </ul>
+    <div id="chatbot-icon" style="cursor:pointer; font-size:2rem;">🤖</div>
+    <div id="chatbot-area" style="display:none;">
+        <div id="chatbot-history"></div>
+        <div id="chatbot-input-area">
+            <input id="chatbot-input" type="text" placeholder="질문을 입력하세요..." autocomplete="off" />
+            <button id="chatbot-send">전송</button>
+        </div>
+    </div>
+
+    <script>
+        const todoList = document.getElementById('todo-list');
+        const input = document.getElementById('newTodo');
+        const addBtn = document.getElementById('add-todo');
+
+        // 할 일 목록 불러오기
+        async function fetchTodos() {
+            const res = await fetch('/api/todos');
+            const todos = await res.json();
+            renderTodos(todos);
+        }
+
+        // 할 일 추가
+        addBtn.addEventListener('click', async () => {
+            const text = input.value.trim();
+            if (!text) return;
+            await fetch('/api/todos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text })
+            });
+            input.value = '';
+            fetchTodos();
+        });
+
+        // 할 일 렌더링
+        function renderTodos(todos) {
+            todoList.innerHTML = '';
+            todos.forEach(todo => {
+                const li = document.createElement('li');
+                li.textContent = todo.text;
+                if (todo.completed) li.style.textDecoration = 'line-through';
+
+                // 토글 버튼
+                const toggleBtn = document.createElement('button');
+                toggleBtn.textContent = todo.completed ? '취소' : '완료';
+                toggleBtn.onclick = async () => {
+                    await fetch('/api/todos', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id: todo.id })
+                    });
+                    fetchTodos();
+                };
+
+                // 삭제 버튼
+                const delBtn = document.createElement('button');
+                delBtn.textContent = '삭제';
+                delBtn.onclick = async () => {
+                    await fetch('/api/todos', {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id: todo.id })
+                    });
+                    fetchTodos();
+                };
+
+                li.appendChild(toggleBtn);
+                li.appendChild(delBtn);
+                todoList.appendChild(li);
+            });
+        }
+
+        // 페이지 로드 시 할 일 목록 불러오기
+        fetchTodos();
+
+
+
+        // 챗봇 토글
+        const chatbotIcon = document.getElementById('chatbot-icon');
+        const chatbotArea = document.getElementById('chatbot-area');
+        chatbotIcon.addEventListener('click', () => {
+            if (chatbotArea.style.display === 'none') {
+                chatbotArea.style.display = 'block';
+            } else {
+                chatbotArea.style.display = 'none';
+            }
+        });
+
+        // 챗봇 채팅 기능
+        const chatbotHistory = document.getElementById('chatbot-history');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotSend = document.getElementById('chatbot-send');
+
+        // 채팅 히스토리 배열
+        const chatHistory = [];
+
+        function renderChatHistory() {
+            chatbotHistory.innerHTML = '';
+            chatHistory.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = 'bubble ' + (msg.role === 'user' ? 'user' : 'bot');
+                div.textContent = msg.text;
+                chatbotHistory.appendChild(div);
+            });
+            chatbotHistory.scrollTop = chatbotHistory.scrollHeight;
+        }
+
+        async function sendChat() {
+            const text = chatbotInput.value.trim();
+            if (!text) return;
+            chatHistory.push({ role: 'user', text });
+            renderChatHistory();
+            chatbotInput.value = '';
+
+            // 실제 챗봇 응답 fetch
+            try {
+                const res = await fetch('/api/chats', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                if (!res.ok) throw new Error('챗봇 서버 오류');
+                const data = await res.json();
+                // 응답이 배열 형태라고 가정
+                if (Array.isArray(data)) {
+                    data.forEach(msgObj => {
+                        chatHistory.push({ role: 'bot', text: msgObj.message });
+                    });
+                } else if (data.message) {
+                    chatHistory.push({ role: 'bot', text: data.message });
+                }
+                renderChatHistory();
+            } catch (err) {
+                chatHistory.push({ role: 'bot', text: '챗봇 응답 오류: ' + err.message });
+                renderChatHistory();
+            }
+        }
+
+        chatbotSend.addEventListener('click', sendChat);
+        chatbotInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter') sendChat();
+        });
+    </script>
+    <!-- ...existing code... -->
+</body>
+
+</html>
