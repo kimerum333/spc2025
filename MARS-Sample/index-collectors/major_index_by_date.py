@@ -50,8 +50,7 @@ balance = find_latest_before(balance_list)
 
 # ===== EPS 계산 =====
 try:
-    eps = float(income["netIncome"]) / float(income["weightedAverageShsOut"])
-    eps = round(eps, 2)
+    eps = round(float(income["netIncome"]) / float(income["weightedAverageShsOut"]), 2)
 except:
     eps = "N/A"
 
@@ -73,7 +72,23 @@ try:
 except:
     dividend_yield = "N/A"
 
-# ===== 출력 =====
+# ===== 유동비율 (Current Ratio) =====
+try:
+    current_ratio = round(
+        float(balance["totalCurrentAssets"]) / float(balance["totalCurrentLiabilities"]), 2
+    )
+except:
+    current_ratio = "N/A"
+
+# ===== 부채비율 (Debt Ratio) =====
+try:
+    debt_ratio = round(
+        float(balance["totalLiabilities"]) / float(balance["totalStockholdersEquity"]), 2
+    )
+except:
+    debt_ratio = "N/A"
+
+# ===== 결과 출력 =====
 print(f"\n✅ 기준일 기준 [{symbol}] 주요 지표 수집 결과 (기준일: {target_date_str})")
 print(f"산업 (Industry): {profile.get('industry', 'N/A')}")
 print(f"섹터 (Sector): {profile.get('sector', 'N/A')}")
@@ -83,3 +98,5 @@ print(f"EPS (계산): {eps}")
 print(f"BPS (계산): {bps}")
 print(f"Beta: {profile.get('beta', 'N/A')}")
 print(f"배당수익률 (Dividend Yield): {dividend_yield}%")
+print(f"유동비율 (Current Ratio): {current_ratio}")
+print(f"부채비율 (Debt Ratio): {debt_ratio}")
